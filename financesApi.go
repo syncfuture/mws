@@ -31,7 +31,7 @@ func (x *financesApi) ListFinancialEvents(query *ListFanancialEventsQuery) (stri
 func (x *financesApi) ListFinancialEventsByNextToken(nextToken string) (string, error) {
 	api := newAPI(x.Module, x.Version, "ListFinancialEventsByNextToken")
 
-	api.setParameter("NexToken", nextToken)
+	api.setParameter("NextToken", nextToken)
 
 	return api.Get()
 }
