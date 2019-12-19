@@ -2,17 +2,20 @@ package mws
 
 import (
 	"strconv"
+
+	"github.com/syncfuture/go/config"
 )
 
-type reportsAPI struct {
+type ReportsAPI struct {
 	apiBase
 }
 
-func NewReportsAPI(seller string) *reportsAPI {
-	r := new(reportsAPI)
+func newReportsAPI(seller string, configProvider config.IConfigProvider) *ReportsAPI {
+	r := new(ReportsAPI)
 	r.Seller = seller
-	r.Module = ConfigProvider.GetStringDefault("Reports.Module", "Reports")
-	r.Version = ConfigProvider.GetStringDefault("Reports.Version", "2009-01-01")
+	r.ConfigProvider = configProvider
+	r.Module = r.ConfigProvider.GetStringDefault("Reports.Module", "Reports")
+	r.Version = r.ConfigProvider.GetStringDefault("Reports.Version", "2009-01-01")
 	return r
 }
 
@@ -22,7 +25,7 @@ type GetReportListQuery struct {
 	ReportTypeListTypes []string
 }
 
-func (x *reportsAPI) GetReportList(query *GetReportListQuery) (string, error) {
+func (x *ReportsAPI) GetReportList(query *GetReportListQuery) (string, error) {
 	client := x.newClient("GetReportList")
 
 	client.setParameter("MaxCount", query.MaxCount)
@@ -38,7 +41,7 @@ type GetReportQuery struct {
 	ReportID string
 }
 
-func (x *reportsAPI) GetReport(query *GetReportQuery) (string, error) {
+func (x *ReportsAPI) GetReport(query *GetReportQuery) (string, error) {
 	client := x.newClient("GetReport")
 
 	client.setParameter("ReportId", query.ReportID)

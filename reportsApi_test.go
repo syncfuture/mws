@@ -7,8 +7,7 @@ import (
 )
 
 func TestGetReportList(t *testing.T) {
-	client := NewReportsAPI("LF")
-	xml, err := client.GetReportList(&GetReportListQuery{
+	xml, err := _apiSet.Reports.GetReportList(&GetReportListQuery{
 		MaxCount:            "1",
 		ReportTypeListTypes: []string{"_GET_FBA_MYI_UNSUPPRESSED_INVENTORY_DATA_"},
 	})
@@ -18,8 +17,7 @@ func TestGetReportList(t *testing.T) {
 }
 
 func TestGetReport(t *testing.T) {
-	client := NewReportsAPI("LF")
-	xml, err := client.GetReport(&GetReportQuery{
+	xml, err := _apiSet.Reports.GetReport(&GetReportQuery{
 		ReportID: "18150051229018249",
 	})
 	assert.NoError(t, err)

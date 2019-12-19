@@ -1,17 +1,20 @@
 package mws
 
-type ordersAPI struct {
+import "github.com/syncfuture/go/config"
+
+type OrdersAPI struct {
 	apiBase
 }
 
-func NewOrdersAPI(seller string) *ordersAPI {
+func newOrdersAPI(seller string, configProvider config.IConfigProvider) *OrdersAPI {
 	if seller == "" {
 		panic("seller cannot be empty")
 	}
-	r := new(ordersAPI)
+	r := new(OrdersAPI)
 	r.Seller = seller
-	r.Module = ConfigProvider.GetStringDefault("Orders.Module", "Orders")
-	r.Version = ConfigProvider.GetStringDefault("Orders.Version", "2013-09-01")
+	r.ConfigProvider = configProvider
+	r.Module = r.ConfigProvider.GetStringDefault("Orders.Module", "Orders")
+	r.Version = r.ConfigProvider.GetStringDefault("Orders.Version", "2013-09-01")
 	return r
 }
 
@@ -20,7 +23,7 @@ type ListOrdersQuery struct {
 	CreatedAfter string
 }
 
-func (x *ordersAPI) ListOrders(query *ListOrdersQuery) (string, error) {
+func (x *OrdersAPI) ListOrders(query *ListOrdersQuery) (string, error) {
 	client := x.newClient("ListOrders")
 
 	client.setParameter("CreatedAfter", query.CreatedAfter)

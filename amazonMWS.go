@@ -12,7 +12,20 @@ import (
 	"strings"
 	"time"
 
+	"github.com/syncfuture/go/config"
+
 	u "github.com/syncfuture/go/util"
+)
+
+type (
+	apiBase struct {
+		ConfigProvider config.IConfigProvider
+		Seller         string
+		Module         string
+		Version        string
+	}
+	queryBase struct {
+	}
 )
 
 func (x *apiBase) newClient(action string) *amazonMWSClient {
@@ -21,37 +34,37 @@ func (x *apiBase) newClient(action string) *amazonMWSClient {
 	}
 
 	r := new(amazonMWSClient)
-	baseURL := ConfigProvider.GetString("BaseUrl")
+	baseURL := x.ConfigProvider.GetString("BaseUrl")
 	if baseURL == "" {
 		panic("'BaseUrl' section cannot be empty in configs.json")
 	}
 
 	r.URL = baseURL + x.Module + "/" + x.Version
-	r.MarketplaceID = ConfigProvider.GetString("MWS." + x.Seller + ".MarketplaceId")
+	r.MarketplaceID = x.ConfigProvider.GetString("MWS." + x.Seller + ".MarketplaceId")
 	if r.MarketplaceID == "" {
 		panic("'MarketplaceId' section cannot be empty in configs.json")
 	}
 
-	r.AccessSecret = ConfigProvider.GetString("MWS." + x.Seller + ".AccessSecret")
+	r.AccessSecret = x.ConfigProvider.GetString("MWS." + x.Seller + ".AccessSecret")
 	if r.AccessSecret == "" {
 		panic("'AccessSecret' section cannot be empty in configs.json")
 	}
 	r.Parameters = make(map[string]string)
 	r.Parameters["Action"] = action
 	r.Parameters["Version"] = x.Version
-	r.Parameters["AWSAccessKeyId"] = ConfigProvider.GetString("MWS." + x.Seller + ".AccessKey")
+	r.Parameters["AWSAccessKeyId"] = x.ConfigProvider.GetString("MWS." + x.Seller + ".AccessKey")
 	if r.Parameters["AWSAccessKeyId"] == "" {
 		panic("'AccessKey' section cannot be empty in configs.json")
 	}
-	r.Parameters["SellerId"] = ConfigProvider.GetString("MWS." + x.Seller + ".SellerId")
+	r.Parameters["SellerId"] = x.ConfigProvider.GetString("MWS." + x.Seller + ".SellerId")
 	if r.Parameters["SellerId"] == "" {
 		panic("'SellerId' section cannot be empty in configs.json")
 	}
-	r.Parameters["SignatureMethod"] = ConfigProvider.GetString("SignatureMethod")
+	r.Parameters["SignatureMethod"] = x.ConfigProvider.GetString("SignatureMethod")
 	if r.Parameters["SignatureMethod"] == "" {
 		panic("'SignatureMethod' section cannot be empty in configs.json")
 	}
-	r.Parameters["SignatureVersion"] = ConfigProvider.GetString("SignatureVersion")
+	r.Parameters["SignatureVersion"] = x.ConfigProvider.GetString("SignatureVersion")
 	if r.Parameters["SignatureVersion"] == "" {
 		panic("'SignatureVersion' section cannot be empty in configs.json")
 	}
@@ -64,59 +77,6 @@ type amazonMWSClient struct {
 	MarketplaceID string
 	AccessSecret  string
 	Parameters    map[string]string
-}
-
-func newMWSClient(seller, module, version, action string) *amazonMWSClient {
-	if seller == "" {
-		panic("seller cannot be empty")
-	}
-	if module == "" {
-		panic("module cannot be empty")
-	}
-	if version == "" {
-		panic("version cannot be empty")
-	}
-	if action == "" {
-		panic("action cannot be empty")
-	}
-
-	r := new(amazonMWSClient)
-	baseURL := ConfigProvider.GetString("MWS." + seller + ".BaseUrl")
-	if baseURL == "" {
-		panic("'BaseUrl' section cannot be empty in configs.json")
-	}
-
-	r.URL = baseURL + module + "/" + version
-	r.MarketplaceID = ConfigProvider.GetString("MWS." + seller + ".MarketplaceId")
-	if r.MarketplaceID == "" {
-		panic("'MarketplaceId' section cannot be empty in configs.json")
-	}
-
-	r.AccessSecret = ConfigProvider.GetString("MWS." + seller + ".AccessSecret")
-	if r.AccessSecret == "" {
-		panic("'AccessSecret' section cannot be empty in configs.json")
-	}
-	r.Parameters = make(map[string]string)
-	r.Parameters["Action"] = action
-	r.Parameters["Version"] = version
-	r.Parameters["AWSAccessKeyId"] = ConfigProvider.GetString("MWS." + seller + ".AccessKey")
-	if r.Parameters["AWSAccessKeyId"] == "" {
-		panic("'AccessKey' section cannot be empty in configs.json")
-	}
-	r.Parameters["SellerId"] = ConfigProvider.GetString("MWS." + seller + ".SellerId")
-	if r.Parameters["SellerId"] == "" {
-		panic("'SellerId' section cannot be empty in configs.json")
-	}
-	r.Parameters["SignatureMethod"] = ConfigProvider.GetString("SignatureMethod")
-	if r.Parameters["SignatureMethod"] == "" {
-		panic("'SignatureMethod' section cannot be empty in configs.json")
-	}
-	r.Parameters["SignatureVersion"] = ConfigProvider.GetString("SignatureVersion")
-	if r.Parameters["SignatureVersion"] == "" {
-		panic("'SignatureVersion' section cannot be empty in configs.json")
-	}
-
-	return r
 }
 
 func (x *amazonMWSClient) Get() (r string, err error) {

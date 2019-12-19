@@ -1,53 +1,19 @@
 package mws
 
 import (
-	"net/http"
-	"net/url"
-
 	"github.com/syncfuture/go/config"
 )
 
-var (
-	ConfigProvider config.IConfigProvider
-)
+type APISet struct {
+	Finances *FinancesAPI
+	Orders   *OrdersAPI
+	Reports  *ReportsAPI
+}
 
-const (
-	Seller_LF = "LF"
-	Seller_FF = "FF"
-)
-
-type (
-	apiBase struct {
-		Seller  string
-		Module  string
-		Version string
-	}
-	queryBase struct {
-	}
-)
-
-func init() {
-	// Must put a configs.json file under same folder
-	// Exmaple: configs.json
-	// {
-	// 	"BaseUrl": "https://mws.amazonservices.com/",
-	// 	"AccessKey": "xxxx",
-	// 	"AccessSecret": "xxxx",
-	// 	"MarketplaceId": "xxxx",
-	// 	"SellerId": "xxxx",
-	// 	"SignatureVersion": "2",
-	// 	"SignatureMethod": "HmacSHA256"
-	// }
-	ConfigProvider = config.NewJsonConfigProvider()
-
-	proxy := ConfigProvider.GetString("Proxy")
-	if proxy != "" {
-		// 任意条件满足，则使用自定义传输层
-		transport := new(http.Transport)
-		// 使用代理
-		transport.Proxy = func(r *http.Request) (*url.URL, error) {
-			return url.Parse(proxy)
-		}
-		http.DefaultClient.Transport = transport
-	}
+func NewAPISet(seller string, configProvider config.IConfigProvider) (r *APISet) {
+	r = new(APISet)
+	r.Finances = newFinancesAPI(seller, configProvider)
+	r.Orders = newOrdersAPI(seller, configProvider)
+	r.Reports = newReportsAPI(seller, configProvider)
+	return r
 }

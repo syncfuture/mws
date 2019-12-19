@@ -1,14 +1,19 @@
 package mws
 
-type financesAPI struct {
+import (
+	"github.com/syncfuture/go/config"
+)
+
+type FinancesAPI struct {
 	apiBase
 }
 
-func NewFinancesAPI(seller string) *financesAPI {
-	r := new(financesAPI)
+func newFinancesAPI(seller string, configProvider config.IConfigProvider) *FinancesAPI {
+	r := new(FinancesAPI)
 	r.Seller = seller
-	r.Module = ConfigProvider.GetStringDefault("Orders.Module", "Finances")
-	r.Version = ConfigProvider.GetStringDefault("Orders.Version", "2015-05-01")
+	r.ConfigProvider = configProvider
+	r.Module = r.ConfigProvider.GetStringDefault("Orders.Module", "Finances")
+	r.Version = r.ConfigProvider.GetStringDefault("Orders.Version", "2015-05-01")
 	return r
 }
 
@@ -21,7 +26,7 @@ type ListFanancialEventsQuery struct {
 	PostedBefore          string
 }
 
-func (x *financesAPI) ListFinancialEvents(query *ListFanancialEventsQuery) (string, error) {
+func (x *FinancesAPI) ListFinancialEvents(query *ListFanancialEventsQuery) (string, error) {
 	client := x.newClient("ListFinancialEvents")
 
 	client.setParameter("MaxResultsPerPage", query.MaxResultsPerPage)
@@ -35,7 +40,7 @@ type ListFinancialEventsByNextTokenQuery struct {
 	NextToken string
 }
 
-func (x *financesAPI) ListFinancialEventsByNextToken(query *ListFinancialEventsByNextTokenQuery) (string, error) {
+func (x *FinancesAPI) ListFinancialEventsByNextToken(query *ListFinancialEventsByNextTokenQuery) (string, error) {
 	client := x.newClient("ListFinancialEventsByNextToken")
 
 	client.setParameter("NextToken", query.NextToken)
