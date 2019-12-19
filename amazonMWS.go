@@ -34,7 +34,7 @@ func (x *apiBase) newClient(action string) *amazonMWSClient {
 	}
 
 	r := new(amazonMWSClient)
-	baseURL := x.ConfigProvider.GetString("BaseUrl")
+	baseURL := x.ConfigProvider.GetString("MWS.BaseUrl")
 	if baseURL == "" {
 		panic("'BaseUrl' section cannot be empty in configs.json")
 	}
@@ -60,11 +60,11 @@ func (x *apiBase) newClient(action string) *amazonMWSClient {
 	if r.Parameters["SellerId"] == "" {
 		panic("'SellerId' section cannot be empty in configs.json")
 	}
-	r.Parameters["SignatureMethod"] = x.ConfigProvider.GetString("SignatureMethod")
+	r.Parameters["SignatureMethod"] = x.ConfigProvider.GetString("MWS.SignatureMethod")
 	if r.Parameters["SignatureMethod"] == "" {
 		panic("'SignatureMethod' section cannot be empty in configs.json")
 	}
-	r.Parameters["SignatureVersion"] = x.ConfigProvider.GetString("SignatureVersion")
+	r.Parameters["SignatureVersion"] = x.ConfigProvider.GetString("MWS.SignatureVersion")
 	if r.Parameters["SignatureVersion"] == "" {
 		panic("'SignatureVersion' section cannot be empty in configs.json")
 	}
