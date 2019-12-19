@@ -8,8 +8,8 @@ import (
 )
 
 func TestListOrders(t *testing.T) {
-	api := NewOrdersApi()
-	xml, err := api.ListOrders(&ListOrdersQuery{
+	client := NewOrdersAPI("LF")
+	xml, err := client.ListOrders(&ListOrdersQuery{
 		CreatedAfter: time.Now().UTC().Format(time.RFC3339),
 	})
 	assert.NoError(t, err)

@@ -1,10 +1,19 @@
 package mws
 
-type financesApi struct {
-	api
+type financesAPI struct {
+	apiBase
+}
+
+func NewFinancesAPI(seller string) *financesAPI {
+	r := new(financesAPI)
+	r.Seller = seller
+	r.Module = ConfigProvider.GetStringDefault("Orders.Module", "Finances")
+	r.Version = ConfigProvider.GetStringDefault("Orders.Version", "2015-05-01")
+	return r
 }
 
 type ListFanancialEventsQuery struct {
+	queryBase
 	MaxResultsPerPage     string
 	AmazonOrderId         string
 	FinancialEventGroupId string
@@ -12,26 +21,24 @@ type ListFanancialEventsQuery struct {
 	PostedBefore          string
 }
 
-func NewFinancesApi() *financesApi {
-	r := new(financesApi)
-	r.Module = ConfigProvider.GetStringDefault("Orders.Module", "Finances")
-	r.Version = ConfigProvider.GetStringDefault("Orders.Version", "2015-05-01")
-	return r
+func (x *financesAPI) ListFinancialEvents(query *ListFanancialEventsQuery) (string, error) {
+	client := x.newClient("ListFinancialEvents")
+
+	client.setParameter("MaxResultsPerPage", query.MaxResultsPerPage)
+	client.setParameter("PostedAfter", query.PostedAfter)
+
+	return client.Get()
 }
 
-func (x *financesApi) ListFinancialEvents(query *ListFanancialEventsQuery) (string, error) {
-	api := newAPI(x.Module, x.Version, "ListFinancialEvents")
-
-	api.setParameter("MaxResultsPerPage", query.MaxResultsPerPage)
-	api.setParameter("PostedAfter", query.PostedAfter)
-
-	return api.Get()
+type ListFinancialEventsByNextTokenQuery struct {
+	queryBase
+	NextToken string
 }
 
-func (x *financesApi) ListFinancialEventsByNextToken(nextToken string) (string, error) {
-	api := newAPI(x.Module, x.Version, "ListFinancialEventsByNextToken")
+func (x *financesAPI) ListFinancialEventsByNextToken(query *ListFinancialEventsByNextTokenQuery) (string, error) {
+	client := x.newClient("ListFinancialEventsByNextToken")
 
-	api.setParameter("NextToken", nextToken)
+	client.setParameter("NextToken", query.NextToken)
 
-	return api.Get()
+	return client.Get()
 }

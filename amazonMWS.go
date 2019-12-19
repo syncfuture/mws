@@ -15,53 +15,35 @@ import (
 	u "github.com/syncfuture/go/util"
 )
 
-type api struct {
-	Module  string
-	Version string
-}
-
-type amazonMWS struct {
-	URL           string
-	MarketplaceID string
-	AccessSecret  string
-	Parameters    map[string]string
-}
-
-func newAPI(module, version, action string) *amazonMWS {
-	if module == "" {
-		panic("module cannot be empty")
-	}
-	if version == "" {
-		panic("version cannot be empty")
-	}
+func (x *apiBase) newClient(action string) *amazonMWSClient {
 	if action == "" {
 		panic("action cannot be empty")
 	}
 
-	r := new(amazonMWS)
+	r := new(amazonMWSClient)
 	baseURL := ConfigProvider.GetString("BaseUrl")
 	if baseURL == "" {
 		panic("'BaseUrl' section cannot be empty in configs.json")
 	}
 
-	r.URL = baseURL + module + "/" + version
-	r.MarketplaceID = ConfigProvider.GetString("MarketplaceId")
+	r.URL = baseURL + x.Module + "/" + x.Version
+	r.MarketplaceID = ConfigProvider.GetString("MWS." + x.Seller + ".MarketplaceId")
 	if r.MarketplaceID == "" {
 		panic("'MarketplaceId' section cannot be empty in configs.json")
 	}
 
-	r.AccessSecret = ConfigProvider.GetString("AccessSecret")
+	r.AccessSecret = ConfigProvider.GetString("MWS." + x.Seller + ".AccessSecret")
 	if r.AccessSecret == "" {
 		panic("'AccessSecret' section cannot be empty in configs.json")
 	}
 	r.Parameters = make(map[string]string)
 	r.Parameters["Action"] = action
-	r.Parameters["Version"] = version
-	r.Parameters["AWSAccessKeyId"] = ConfigProvider.GetString("AccessKey")
+	r.Parameters["Version"] = x.Version
+	r.Parameters["AWSAccessKeyId"] = ConfigProvider.GetString("MWS." + x.Seller + ".AccessKey")
 	if r.Parameters["AWSAccessKeyId"] == "" {
 		panic("'AccessKey' section cannot be empty in configs.json")
 	}
-	r.Parameters["SellerId"] = ConfigProvider.GetString("SellerId")
+	r.Parameters["SellerId"] = ConfigProvider.GetString("MWS." + x.Seller + ".SellerId")
 	if r.Parameters["SellerId"] == "" {
 		panic("'SellerId' section cannot be empty in configs.json")
 	}
@@ -77,11 +59,71 @@ func newAPI(module, version, action string) *amazonMWS {
 	return r
 }
 
-func (x *amazonMWS) Get() (r string, err error) {
+type amazonMWSClient struct {
+	URL           string
+	MarketplaceID string
+	AccessSecret  string
+	Parameters    map[string]string
+}
+
+func newMWSClient(seller, module, version, action string) *amazonMWSClient {
+	if seller == "" {
+		panic("seller cannot be empty")
+	}
+	if module == "" {
+		panic("module cannot be empty")
+	}
+	if version == "" {
+		panic("version cannot be empty")
+	}
+	if action == "" {
+		panic("action cannot be empty")
+	}
+
+	r := new(amazonMWSClient)
+	baseURL := ConfigProvider.GetString("MWS." + seller + ".BaseUrl")
+	if baseURL == "" {
+		panic("'BaseUrl' section cannot be empty in configs.json")
+	}
+
+	r.URL = baseURL + module + "/" + version
+	r.MarketplaceID = ConfigProvider.GetString("MWS." + seller + ".MarketplaceId")
+	if r.MarketplaceID == "" {
+		panic("'MarketplaceId' section cannot be empty in configs.json")
+	}
+
+	r.AccessSecret = ConfigProvider.GetString("MWS." + seller + ".AccessSecret")
+	if r.AccessSecret == "" {
+		panic("'AccessSecret' section cannot be empty in configs.json")
+	}
+	r.Parameters = make(map[string]string)
+	r.Parameters["Action"] = action
+	r.Parameters["Version"] = version
+	r.Parameters["AWSAccessKeyId"] = ConfigProvider.GetString("MWS." + seller + ".AccessKey")
+	if r.Parameters["AWSAccessKeyId"] == "" {
+		panic("'AccessKey' section cannot be empty in configs.json")
+	}
+	r.Parameters["SellerId"] = ConfigProvider.GetString("MWS." + seller + ".SellerId")
+	if r.Parameters["SellerId"] == "" {
+		panic("'SellerId' section cannot be empty in configs.json")
+	}
+	r.Parameters["SignatureMethod"] = ConfigProvider.GetString("SignatureMethod")
+	if r.Parameters["SignatureMethod"] == "" {
+		panic("'SignatureMethod' section cannot be empty in configs.json")
+	}
+	r.Parameters["SignatureVersion"] = ConfigProvider.GetString("SignatureVersion")
+	if r.Parameters["SignatureVersion"] == "" {
+		panic("'SignatureVersion' section cannot be empty in configs.json")
+	}
+
+	return r
+}
+
+func (x *amazonMWSClient) Get() (r string, err error) {
 	return x.do(http.Get)
 }
 
-func (x *amazonMWS) do(do func(url string) (*http.Response, error)) (r string, err error) {
+func (x *amazonMWSClient) do(do func(url string) (*http.Response, error)) (r string, err error) {
 	url, err := x.generateURL()
 	if u.LogError(err) {
 		return "", err
@@ -103,7 +145,7 @@ func (x *amazonMWS) do(do func(url string) (*http.Response, error)) (r string, e
 	return string(bytes), nil
 }
 
-func (x *amazonMWS) generateURL() (r string, err error) {
+func (x *amazonMWSClient) generateURL() (r string, err error) {
 	uuu, _ := url.Parse(x.URL)
 
 	values := url.Values{}
@@ -122,7 +164,7 @@ func (x *amazonMWS) generateURL() (r string, err error) {
 	return r, err
 }
 
-func (x *amazonMWS) signAmazonUrl(origUrl *url.URL) (signedUrl string, err error) {
+func (x *amazonMWSClient) signAmazonUrl(origUrl *url.URL) (signedUrl string, err error) {
 	escapeUrl := strings.Replace(origUrl.RawQuery, ",", "%2C", -1)
 	escapeUrl = strings.Replace(escapeUrl, ":", "%3A", -1)
 
@@ -149,7 +191,7 @@ func (x *amazonMWS) signAmazonUrl(origUrl *url.URL) (signedUrl string, err error
 	return origUrl.String(), nil
 }
 
-func (x *amazonMWS) setParameter(key, value string) {
+func (x *amazonMWSClient) setParameter(key, value string) {
 	if key != "" && value != "" {
 		x.Parameters[key] = value
 	} else if value == "" {

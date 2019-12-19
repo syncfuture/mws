@@ -8,8 +8,8 @@ import (
 )
 
 func TestListFinancialEvents(t *testing.T) {
-	api := NewFinancesApi()
-	r, err := api.ListFinancialEvents(&ListFanancialEventsQuery{
+	client := NewFinancesAPI("LF")
+	r, err := client.ListFinancialEvents(&ListFanancialEventsQuery{
 		MaxResultsPerPage: "1",
 		PostedAfter:       "2019-12-11T00:00:00",
 	})
@@ -21,7 +21,9 @@ func TestListFinancialEvents(t *testing.T) {
 	token := doc.Root.GetChild("ListFinancialEventsResult").GetChild("NextToken").Text
 	t.Log(token)
 	if token != "" {
-		r, err = api.ListFinancialEventsByNextToken(token)
+		r, err = client.ListFinancialEventsByNextToken(&ListFinancialEventsByNextTokenQuery{
+			NextToken: token,
+		})
 		assert.NoError(t, err)
 		assert.NotEmpty(t, r)
 	}
