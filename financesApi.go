@@ -31,6 +31,7 @@ func (x *FinancesAPI) ListFinancialEvents(query *ListFanancialEventsQuery) (stri
 
 	client.setParameter("MaxResultsPerPage", query.MaxResultsPerPage)
 	client.setParameter("PostedAfter", query.PostedAfter)
+	client.setParameter("PostedBefore", query.PostedBefore)
 
 	return client.Get()
 }
