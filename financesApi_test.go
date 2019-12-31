@@ -1,6 +1,8 @@
 package mws
 
 import (
+	"encoding/xml"
+	"io/ioutil"
 	"testing"
 
 	"github.com/syncfuture/mws/finances"
@@ -28,4 +30,20 @@ func TestListFinancialEvents(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotEmpty(t, r)
 	}
+}
+
+func TestUnmarshal(t *testing.T) {
+	data, err := ioutil.ReadFile("finances/1.xml")
+	assert.NoError(t, err)
+
+	resp1 := new(finances.ListFinancialEventsResponse)
+	err = xml.Unmarshal(data, resp1)
+	assert.NoError(t, err)
+
+	data, err = ioutil.ReadFile("finances/2.xml")
+	assert.NoError(t, err)
+
+	resp2 := new(finances.ListFinancialEventsByNextTokenResponse)
+	err = xml.Unmarshal(data, resp2)
+	assert.NoError(t, err)
 }
