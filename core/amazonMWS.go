@@ -1,4 +1,4 @@
-package mws
+package core
 
 import (
 	"crypto/hmac"
@@ -18,17 +18,17 @@ import (
 )
 
 type (
-	apiBase struct {
+	APIBase struct {
 		ConfigProvider config.IConfigProvider
 		Seller         string
 		Module         string
 		Version        string
 	}
-	queryBase struct {
+	QueryBase struct {
 	}
 )
 
-func (x *apiBase) newClient(action string) *amazonMWSClient {
+func (x *APIBase) NewClient(action string) *amazonMWSClient {
 	if action == "" {
 		panic("action cannot be empty")
 	}
@@ -151,7 +151,7 @@ func (x *amazonMWSClient) signAmazonUrl(origUrl *url.URL) (signedUrl string, err
 	return origUrl.String(), nil
 }
 
-func (x *amazonMWSClient) setParameter(key, value string) {
+func (x *amazonMWSClient) SetParameter(key, value string) {
 	if key != "" && value != "" {
 		x.Parameters[key] = value
 	} else if value == "" {

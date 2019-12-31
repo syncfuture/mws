@@ -1,16 +1,18 @@
-package mws
+package reports
 
 import (
 	"strconv"
+
+	"github.com/syncfuture/mws/core"
 
 	"github.com/syncfuture/go/config"
 )
 
 type ReportsAPI struct {
-	apiBase
+	core.APIBase
 }
 
-func newReportsAPI(seller string, configProvider config.IConfigProvider) *ReportsAPI {
+func NewReportsAPI(seller string, configProvider config.IConfigProvider) *ReportsAPI {
 	r := new(ReportsAPI)
 	r.Seller = seller
 	r.ConfigProvider = configProvider
@@ -20,31 +22,31 @@ func newReportsAPI(seller string, configProvider config.IConfigProvider) *Report
 }
 
 type GetReportListQuery struct {
-	queryBase
+	core.QueryBase
 	MaxCount            string
 	ReportTypeListTypes []string
 }
 
 func (x *ReportsAPI) GetReportList(query *GetReportListQuery) (string, error) {
-	client := x.newClient("GetReportList")
+	client := x.NewClient("GetReportList")
 
-	client.setParameter("MaxCount", query.MaxCount)
+	client.SetParameter("MaxCount", query.MaxCount)
 	for i, v := range query.ReportTypeListTypes {
-		client.setParameter("ReportTypeList.Type."+strconv.Itoa(i+1), v)
+		client.SetParameter("ReportTypeList.Type."+strconv.Itoa(i+1), v)
 	}
 
 	return client.Get()
 }
 
 type GetReportQuery struct {
-	queryBase
+	core.QueryBase
 	ReportID string
 }
 
 func (x *ReportsAPI) GetReport(query *GetReportQuery) (string, error) {
-	client := x.newClient("GetReport")
+	client := x.NewClient("GetReport")
 
-	client.setParameter("ReportId", query.ReportID)
+	client.SetParameter("ReportId", query.ReportID)
 
 	return client.Get()
 }

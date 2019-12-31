@@ -1,12 +1,15 @@
-package mws
+package orders
 
-import "github.com/syncfuture/go/config"
+import (
+	"github.com/syncfuture/go/config"
+	"github.com/syncfuture/mws/core"
+)
 
 type OrdersAPI struct {
-	apiBase
+	core.APIBase
 }
 
-func newOrdersAPI(seller string, configProvider config.IConfigProvider) *OrdersAPI {
+func NewOrdersAPI(seller string, configProvider config.IConfigProvider) *OrdersAPI {
 	if seller == "" {
 		panic("seller cannot be empty")
 	}
@@ -19,15 +22,15 @@ func newOrdersAPI(seller string, configProvider config.IConfigProvider) *OrdersA
 }
 
 type ListOrdersQuery struct {
-	queryBase
+	core.QueryBase
 	CreatedAfter string
 }
 
 func (x *OrdersAPI) ListOrders(query *ListOrdersQuery) (string, error) {
-	client := x.newClient("ListOrders")
+	client := x.NewClient("ListOrders")
 
-	client.setParameter("CreatedAfter", query.CreatedAfter)
-	client.setParameter("MarketplaceId.Id.1", client.MarketplaceID)
+	client.SetParameter("CreatedAfter", query.CreatedAfter)
+	client.SetParameter("MarketplaceId.Id.1", client.MarketplaceID)
 
 	return client.Get()
 }

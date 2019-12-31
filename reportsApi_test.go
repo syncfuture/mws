@@ -3,11 +3,13 @@ package mws
 import (
 	"testing"
 
+	"github.com/syncfuture/mws/reports"
+
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGetReportList(t *testing.T) {
-	xml, err := _apiSet.Reports.GetReportList(&GetReportListQuery{
+	xml, err := _apiSet.Reports.GetReportList(&reports.GetReportListQuery{
 		MaxCount:            "1",
 		ReportTypeListTypes: []string{"_GET_FBA_MYI_UNSUPPRESSED_INVENTORY_DATA_"},
 	})
@@ -17,7 +19,7 @@ func TestGetReportList(t *testing.T) {
 }
 
 func TestGetReport(t *testing.T) {
-	xml, err := _apiSet.Reports.GetReport(&GetReportQuery{
+	xml, err := _apiSet.Reports.GetReport(&reports.GetReportQuery{
 		ReportID: "18150051229018249",
 	})
 	assert.NoError(t, err)

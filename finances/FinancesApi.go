@@ -1,14 +1,15 @@
-package mws
+package finances
 
 import (
 	"github.com/syncfuture/go/config"
+	"github.com/syncfuture/mws/core"
 )
 
 type FinancesAPI struct {
-	apiBase
+	core.APIBase
 }
 
-func newFinancesAPI(seller string, configProvider config.IConfigProvider) *FinancesAPI {
+func NewFinancesAPI(seller string, configProvider config.IConfigProvider) *FinancesAPI {
 	r := new(FinancesAPI)
 	r.Seller = seller
 	r.ConfigProvider = configProvider
@@ -18,7 +19,7 @@ func newFinancesAPI(seller string, configProvider config.IConfigProvider) *Finan
 }
 
 type ListFanancialEventsQuery struct {
-	queryBase
+	core.QueryBase
 	MaxResultsPerPage     string
 	AmazonOrderId         string
 	FinancialEventGroupId string
@@ -27,24 +28,24 @@ type ListFanancialEventsQuery struct {
 }
 
 func (x *FinancesAPI) ListFinancialEvents(query *ListFanancialEventsQuery) (string, error) {
-	client := x.newClient("ListFinancialEvents")
+	client := x.NewClient("ListFinancialEvents")
 
-	client.setParameter("MaxResultsPerPage", query.MaxResultsPerPage)
-	client.setParameter("PostedAfter", query.PostedAfter)
-	client.setParameter("PostedBefore", query.PostedBefore)
+	client.SetParameter("MaxResultsPerPage", query.MaxResultsPerPage)
+	client.SetParameter("PostedAfter", query.PostedAfter)
+	client.SetParameter("PostedBefore", query.PostedBefore)
 
 	return client.Get()
 }
 
 type ListFinancialEventsByNextTokenQuery struct {
-	queryBase
+	core.QueryBase
 	NextToken string
 }
 
 func (x *FinancesAPI) ListFinancialEventsByNextToken(query *ListFinancialEventsByNextTokenQuery) (string, error) {
-	client := x.newClient("ListFinancialEventsByNextToken")
+	client := x.NewClient("ListFinancialEventsByNextToken")
 
-	client.setParameter("NextToken", query.NextToken)
+	client.SetParameter("NextToken", query.NextToken)
 
 	return client.Get()
 }
