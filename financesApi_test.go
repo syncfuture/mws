@@ -3,12 +3,16 @@ package mws
 import (
 	"encoding/xml"
 	"io/ioutil"
+	"os"
+	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/syncfuture/mws/finances"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/subchen/go-xmldom"
+	u "github.com/syncfuture/go/util"
 )
 
 func TestListFinancialEvents(t *testing.T) {
@@ -33,17 +37,40 @@ func TestListFinancialEvents(t *testing.T) {
 }
 
 func TestUnmarshal(t *testing.T) {
-	data, err := ioutil.ReadFile("finances/1.xml")
-	assert.NoError(t, err)
+	filepath.Walk("finances/test", func(file string, fi os.FileInfo, err error) error {
+		if u.LogError(err) {
+			return err
+		}
+		if !fi.IsDir() {
+			data, err := ioutil.ReadFile(file)
+			assert.NoError(t, err)
 
-	resp1 := new(finances.ListFinancialEventsResponse)
-	err = xml.Unmarshal(data, resp1)
-	assert.NoError(t, err)
+			if strings.HasSuffix(file, "00001.xml") {
+				resp := new(finances.ListFinancialEventsResponse)
+				err = xml.Unmarshal(data, resp)
+				assert.NoError(t, err)
+			} else {
+				resp := new(finances.ListFinancialEventsByNextTokenResponse)
+				err = xml.Unmarshal(data, resp)
+				assert.NoError(t, err)
+			}
+		}
 
-	data, err = ioutil.ReadFile("finances/2.xml")
-	assert.NoError(t, err)
+		return nil
+	})
 
-	resp2 := new(finances.ListFinancialEventsByNextTokenResponse)
-	err = xml.Unmarshal(data, resp2)
-	assert.NoError(t, err)
+	// for i, file := range files {
+	// 	data, err := ioutil.ReadFile(file.Name())
+	// 	assert.NoError(t, err)
+
+	// 	if i == 0 {
+	// 		resp := new(finances.ListFinancialEventsResponse)
+	// 		err = xml.Unmarshal(data, resp)
+	// 		assert.NoError(t, err)
+	// 	} else {
+	// 		resp := new(finances.ListFinancialEventsByNextTokenResponse)
+	// 		err = xml.Unmarshal(data, resp)
+	// 		assert.NoError(t, err)
+	// 	}
+	// }
 }
