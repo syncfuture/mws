@@ -28,6 +28,7 @@ type FeeList struct {
 type ListFinancialEventsResponse struct {
 	ListFinancialEventsResult *ListFinancialEventsResult `xml:"ListFinancialEventsResult"`
 	ResponseMetadata          *core.ResponseMetadata
+	Error                     *core.ResponseError
 }
 
 type ListFinancialEventsByNextTokenResponse struct {
