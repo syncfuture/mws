@@ -178,7 +178,7 @@ type AdjustmentEventList struct {
 }
 type AdjustmentEvent struct {
 	AdjustmentType     string
-	PostedDate         time.Time `xml:"postedDate"`
+	PostedDate         time.Time
 	AdjustmentAmount   *Amount
 	AdjustmentItemList *AdjustmentItemList
 }
