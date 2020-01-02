@@ -156,7 +156,7 @@ type ProductAdsPaymentEventList struct {
 }
 type ProductAdsPaymentEvent struct {
 	InvoiceId        string    `xml:"invoiceId"`
-	TransactionType  string    `xml:"productAdsPaymentEvent"`
+	TransactionType  string    `xml:"transactionType"`
 	BaseValue        *Amount   `xml:"baseValue"`
 	TaxValue         *Amount   `xml:"taxValue"`
 	TransactionValue *Amount   `xml:"transactionValue"`
