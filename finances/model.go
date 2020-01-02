@@ -25,15 +25,42 @@ type FeeList struct {
 	Fees *FeeComponent `xml:"FeeComponent"`
 }
 
+type IListFinancialEventsResponse interface {
+	GetListFinancialEventsResult() *ListFinancialEventsResult
+	GetResponseMetadata() *core.ResponseMetadata
+	GetError() *core.ResponseError
+}
+
 type ListFinancialEventsResponse struct {
 	ListFinancialEventsResult *ListFinancialEventsResult `xml:"ListFinancialEventsResult"`
 	ResponseMetadata          *core.ResponseMetadata
 	Error                     *core.ResponseError
 }
 
+func (x *ListFinancialEventsResponse) GetListFinancialEventsResult() *ListFinancialEventsResult {
+	return x.ListFinancialEventsResult
+}
+func (x *ListFinancialEventsResponse) GetResponseMetadata() *core.ResponseMetadata {
+	return x.ResponseMetadata
+}
+func (x *ListFinancialEventsResponse) GetError() *core.ResponseError {
+	return x.Error
+}
+
 type ListFinancialEventsByNextTokenResponse struct {
 	ListFinancialEventsResult *ListFinancialEventsResult `xml:"ListFinancialEventsByNextTokenResult"`
 	ResponseMetadata          *core.ResponseMetadata
+	Error                     *core.ResponseError
+}
+
+func (x *ListFinancialEventsByNextTokenResponse) GetListFinancialEventsResult() *ListFinancialEventsResult {
+	return x.ListFinancialEventsResult
+}
+func (x *ListFinancialEventsByNextTokenResponse) GetResponseMetadata() *core.ResponseMetadata {
+	return x.ResponseMetadata
+}
+func (x *ListFinancialEventsByNextTokenResponse) GetError() *core.ResponseError {
+	return x.Error
 }
 
 type ListFinancialEventsResult struct {
