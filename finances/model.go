@@ -165,7 +165,7 @@ type ProductAdsPaymentEvent struct {
 
 // ServiceFeeEventList *************************************************************************************
 type ServiceFeeEventList struct {
-	ServiceFeeEvents *ServiceFeeEvent `xml:"ServiceFeeEvent"`
+	ServiceFeeEvents []*ServiceFeeEvent `xml:"ServiceFeeEvent"`
 }
 type ServiceFeeEvent struct {
 	AmazonOrderId string
