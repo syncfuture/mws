@@ -108,6 +108,7 @@ type ShipmentItem struct {
 	ItemFeeList              *FeeList
 	ItemFeeAdjustmentList    *FeeList
 	PromotionList            *PromotionList
+	PromotionAdjustmentList  *PromotionList
 }
 
 type ItemTaxWithheldList struct {
