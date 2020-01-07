@@ -22,7 +22,7 @@ type FeeComponent struct {
 }
 
 type FeeList struct {
-	Fees *FeeComponent `xml:"FeeComponent"`
+	Fees []*FeeComponent `xml:"FeeComponent"`
 }
 
 type IListFinancialEventsResponse interface {
@@ -148,6 +148,14 @@ type RefundEventList struct {
 
 // RetrochargeEventList *************************************************************************************
 type RetrochargeEventList struct {
+	RetrochargeEvents []*RetrochargeEvent `xml:"RetrochargeEvent"`
+}
+
+type RetrochargeEvent struct {
+	MarketplaceName string
+	PostedDate      time.Time
+	ShippingTax     *Amount
+	BaseTax         *Amount
 }
 
 // ProductAdsPaymentEventList *************************************************************************************
