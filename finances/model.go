@@ -225,6 +225,7 @@ type SellerReviewEnrollmentPaymentEvent struct {
 	ParentASIN   string
 	EnrollmentId string
 	PostedDate   time.Time
+	TotalAmount  *Amount
 	Fee          *FeeComponent    `xml:"FeeComponent"`
 	Charge       *ChargeComponent `xml:"ChargeComponent"`
 }
