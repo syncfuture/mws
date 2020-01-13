@@ -1,16 +1,18 @@
-package mws
+package tests
 
 import (
 	"crypto/tls"
 	"net/http"
 	"net/url"
 
+	"github.com/syncfuture/mws"
+
 	log "github.com/kataras/golog"
 	"github.com/syncfuture/go/config"
 )
 
 var (
-	_apiSet *APISet
+	_apiSet *mws.APISet
 )
 
 func init() {
@@ -18,7 +20,7 @@ func init() {
 
 	configHttpClient(configProvider)
 
-	_apiSet = NewAPISet("LF", configProvider)
+	_apiSet = mws.NewAPISet("LF", configProvider)
 	log.Info("Starting test.")
 }
 
