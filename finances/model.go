@@ -177,8 +177,10 @@ type ServiceFeeEventList struct {
 	ServiceFeeEvents []*ServiceFeeEvent `xml:"ServiceFeeEvent"`
 }
 type ServiceFeeEvent struct {
-	AmazonOrderId string
-	FeeList       *FeeList
+	AmazonOrderId  string
+	FeeDescription string
+	SellerSKU      string
+	FeeList        *FeeList
 }
 
 // AdjustmentEventList *************************************************************************************
