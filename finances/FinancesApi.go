@@ -1,7 +1,8 @@
 package finances
 
 import (
-	"github.com/syncfuture/go/config"
+	u "github.com/syncfuture/go/util"
+	mwsconfig "github.com/syncfuture/mws/config"
 	"github.com/syncfuture/mws/core"
 )
 
@@ -9,12 +10,15 @@ type FinancesAPI struct {
 	core.APIBase
 }
 
-func NewFinancesAPI(seller string, configProvider config.IConfigProvider) *FinancesAPI {
+func NewFinancesAPI(config *mwsconfig.MWSConfig, args ...string) *FinancesAPI {
 	r := new(FinancesAPI)
-	r.Seller = seller
-	r.ConfigProvider = configProvider
-	r.Module = r.ConfigProvider.GetStringDefault("Orders.Module", "Finances")
-	r.Version = r.ConfigProvider.GetStringDefault("Orders.Version", "2015-05-01")
+	r.Config = config
+	r.Module = "Finances"
+	if len(args) > 0 {
+		r.Version = args[0]
+	} else {
+		r.Version = "2015-05-01"
+	}
 	return r
 }
 
@@ -27,8 +31,12 @@ type ListFanancialEventsQuery struct {
 	PostedBefore          string
 }
 
-func (x *FinancesAPI) ListFinancialEvents(query *ListFanancialEventsQuery) (string, error) {
-	client := x.NewClient("ListFinancialEvents")
+func (x *FinancesAPI) ListFinancialEvents(query *ListFanancialEventsQuery) (r string, err error) {
+	var client *core.MWSClient
+	client, err = x.NewClient("ListFinancialEvents")
+	if u.LogError(err) {
+		return
+	}
 
 	client.SetParameter("MaxResultsPerPage", query.MaxResultsPerPage)
 	client.SetParameter("PostedAfter", query.PostedAfter)
@@ -42,8 +50,12 @@ type ListFinancialEventsByNextTokenQuery struct {
 	NextToken string
 }
 
-func (x *FinancesAPI) ListFinancialEventsByNextToken(query *ListFinancialEventsByNextTokenQuery) (string, error) {
-	client := x.NewClient("ListFinancialEventsByNextToken")
+func (x *FinancesAPI) ListFinancialEventsByNextToken(query *ListFinancialEventsByNextTokenQuery) (r string, err error) {
+	var client *core.MWSClient
+	client, err = x.NewClient("ListFinancialEventsByNextToken")
+	if u.LogError(err) {
+		return
+	}
 
 	client.SetParameter("NextToken", query.NextToken)
 

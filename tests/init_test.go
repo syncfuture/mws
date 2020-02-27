@@ -9,6 +9,8 @@ import (
 
 	log "github.com/kataras/golog"
 	"github.com/syncfuture/go/config"
+	u "github.com/syncfuture/go/util"
+	mwsconfig "github.com/syncfuture/mws/config"
 )
 
 var (
@@ -17,10 +19,12 @@ var (
 
 func init() {
 	configProvider := config.NewJsonConfigProvider()
-
 	configHttpClient(configProvider)
+	configGetter := mwsconfig.NewDefaultConfigGetter(configProvider)
+	c, err := configGetter.Get("ams_report", "LF")
+	u.LogFaltal(err)
 
-	_apiSet = mws.NewAPISet("LF", configProvider)
+	_apiSet = mws.NewAPISet(c)
 	log.Info("Starting test.")
 }
 

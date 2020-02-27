@@ -8,6 +8,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/syncfuture/armos/go/report/xmlutil"
 	"github.com/syncfuture/mws/finances"
 
 	"github.com/stretchr/testify/assert"
@@ -17,16 +18,15 @@ import (
 
 func TestListFinancialEvents(t *testing.T) {
 	r, err := _apiSet.Finances.ListFinancialEvents(&finances.ListFanancialEventsQuery{
-		MaxResultsPerPage: "2",
-		PostedAfter:       "2019-12-11T00:00:00",
+		MaxResultsPerPage: "100",
+		PostedAfter:       "2020-01-08T06:19:00Z",
+		PostedBefore:      "2020-01-08T06:22:00Z",
 	})
 	assert.NoError(t, err)
 	assert.NotEmpty(t, r)
-	t.Log(r)
 
 	doc := xmldom.Must(xmldom.ParseXML(r))
-	token := doc.Root.GetChild("ListFinancialEventsResult").GetChild("NextToken").Text
-	t.Log(token)
+	token := xmlutil.GetNodeText(doc.Root, "ListFinancialEventsResult/NextToken")
 	if token != "" {
 		r, err = _apiSet.Finances.ListFinancialEventsByNextToken(&finances.ListFinancialEventsByNextTokenQuery{
 			NextToken: token,

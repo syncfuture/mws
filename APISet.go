@@ -1,7 +1,7 @@
 package mws
 
 import (
-	"github.com/syncfuture/go/config"
+	mwsconfig "github.com/syncfuture/mws/config"
 	"github.com/syncfuture/mws/finances"
 	"github.com/syncfuture/mws/orders"
 	"github.com/syncfuture/mws/products"
@@ -15,11 +15,11 @@ type APISet struct {
 	Products *products.ProductsAPI
 }
 
-func NewAPISet(seller string, configProvider config.IConfigProvider) (r *APISet) {
+func NewAPISet(config *mwsconfig.MWSConfig) (r *APISet) {
 	r = new(APISet)
-	r.Finances = finances.NewFinancesAPI(seller, configProvider)
-	r.Orders = orders.NewOrdersAPI(seller, configProvider)
-	r.Reports = reports.NewReportsAPI(seller, configProvider)
-	r.Products = products.NewProductsAPI(seller, configProvider)
+	r.Finances = finances.NewFinancesAPI(config)
+	r.Orders = orders.NewOrdersAPI(config)
+	r.Reports = reports.NewReportsAPI(config)
+	r.Products = products.NewProductsAPI(config)
 	return r
 }

@@ -3,21 +3,23 @@ package reports
 import (
 	"strconv"
 
+	mwsconfig "github.com/syncfuture/mws/config"
 	"github.com/syncfuture/mws/core"
-
-	"github.com/syncfuture/go/config"
 )
 
 type ReportsAPI struct {
 	core.APIBase
 }
 
-func NewReportsAPI(seller string, configProvider config.IConfigProvider) *ReportsAPI {
+func NewReportsAPI(config *mwsconfig.MWSConfig, args ...string) *ReportsAPI {
 	r := new(ReportsAPI)
-	r.Seller = seller
-	r.ConfigProvider = configProvider
-	r.Module = r.ConfigProvider.GetStringDefault("Reports.Module", "Reports")
-	r.Version = r.ConfigProvider.GetStringDefault("Reports.Version", "2009-01-01")
+	r.Config = config
+	r.Module = "Reports"
+	if len(args) > 0 {
+		r.Version = args[0]
+	} else {
+		r.Version = "2009-01-01"
+	}
 	return r
 }
 
@@ -27,8 +29,9 @@ type GetReportListQuery struct {
 	ReportTypeListTypes []string
 }
 
-func (x *ReportsAPI) GetReportList(query *GetReportListQuery) (string, error) {
-	client := x.NewClient("GetReportList")
+func (x *ReportsAPI) GetReportList(query *GetReportListQuery) (r string, err error) {
+	var client *core.MWSClient
+	client, err = x.NewClient("GetReportList")
 
 	client.SetParameter("MaxCount", query.MaxCount)
 	for i, v := range query.ReportTypeListTypes {
@@ -43,8 +46,9 @@ type GetReportQuery struct {
 	ReportID string
 }
 
-func (x *ReportsAPI) GetReport(query *GetReportQuery) (string, error) {
-	client := x.NewClient("GetReport")
+func (x *ReportsAPI) GetReport(query *GetReportQuery) (r string, err error) {
+	var client *core.MWSClient
+	client, err = x.NewClient("GetReport")
 
 	client.SetParameter("ReportId", query.ReportID)
 
