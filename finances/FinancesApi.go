@@ -1,7 +1,7 @@
 package finances
 
 import (
-	u "github.com/syncfuture/go/util"
+	"github.com/syncfuture/go/u"
 	mwsconfig "github.com/syncfuture/mws/config"
 	"github.com/syncfuture/mws/core"
 )

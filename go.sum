@@ -264,6 +264,8 @@ github.com/syncfuture/armos/go/report v0.0.0-20200227170103-6cd1663c315e/go.mod 
 github.com/syncfuture/go v0.0.0-20191207185710-02c418754daf/go.mod h1:qP8CUF0c97eGoCD63cpRiFh8gkxsWAfrcMralw3vqSo=
 github.com/syncfuture/go v1.0.18 h1:sJkXNcJYj0k7e4tBTVZrx5fOfYXSbroDDYUC0JQfnzk=
 github.com/syncfuture/go v1.0.18/go.mod h1:UQWd2tmMh1CX1SK1cb/aQmnQE6lJjT7wphdrdtCUeKY=
+github.com/syncfuture/go v1.0.20 h1:iaz7TAVI/pgEnaM5aJmnTLeLZgrd3n46GgoGUWrmANg=
+github.com/syncfuture/go v1.0.20/go.mod h1:UQWd2tmMh1CX1SK1cb/aQmnQE6lJjT7wphdrdtCUeKY=
 github.com/syncfuture/mws v0.0.0-20200115174221-90810faa6415/go.mod h1:2uycGhYqYpB1FUI4+TDEZtwZdr/ljsS74fygauTfNCU=
 github.com/ugorji/go/codec v0.0.0-20181204163529-d75b2dcb6bc8/go.mod h1:VFNgLljTbGfSG7qAOspJ7OScBnGdDN/yBr0sguwnwf0=
 github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=

@@ -14,7 +14,7 @@ import (
 
 	mwsconfig "github.com/syncfuture/mws/config"
 
-	u "github.com/syncfuture/go/util"
+	"github.com/syncfuture/go/u"
 )
 
 type (

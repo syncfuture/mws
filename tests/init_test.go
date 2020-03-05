@@ -9,7 +9,7 @@ import (
 
 	log "github.com/kataras/golog"
 	"github.com/syncfuture/go/config"
-	u "github.com/syncfuture/go/util"
+	"github.com/syncfuture/go/u"
 	mwsconfig "github.com/syncfuture/mws/config"
 )
 
