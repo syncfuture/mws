@@ -43,12 +43,6 @@ type defaultConfigGetter struct {
 func (x *defaultConfigGetter) Get(userID, configID string) (r *MWSConfig, err error) {
 	userJsonPath := "MWS." + userID + "." + configID
 
-	a := x.ConfigProvider.GetMap(userJsonPath)
-	if a == nil {
-		err = ConfigNotFoundError
-		return
-	}
-
 	r = new(MWSConfig)
 	r.ID = configID
 	r.UserID = userID
