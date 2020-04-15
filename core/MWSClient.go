@@ -43,6 +43,9 @@ func (x *APIBase) NewClient(action string) (r *MWSClient, err error) {
 	r.Parameters["SellerId"] = x.Config.SellerID
 	r.Parameters["SignatureMethod"] = x.Config.SignatureMethod
 	r.Parameters["SignatureVersion"] = x.Config.SignatureVersion
+	if x.Config.AuthToken != "" {
+		r.Parameters["MWSAuthToken"] = x.Config.AuthToken
+	}
 
 	return
 }

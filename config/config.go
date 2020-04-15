@@ -16,6 +16,7 @@ type MWSConfig struct {
 	BaseURL          string
 	SignatureVersion string
 	SignatureMethod  string
+	AuthToken        string
 	AccessKey        string
 	AccessSecret     string
 }
