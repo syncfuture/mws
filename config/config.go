@@ -82,6 +82,7 @@ func (x *defaultConfigGetter) Get(userID, configID string) (r *MWSConfig, err er
 		err = errors.New("'AccessSecret' cannot be empty")
 		return
 	}
+	r.AuthToken = x.ConfigProvider.GetString(userJsonPath + ".AuthToken")
 
 	return
 }
