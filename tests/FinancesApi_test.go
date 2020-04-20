@@ -8,8 +8,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/syncfuture/armos/go/report/xmlutil"
 	"github.com/syncfuture/mws/finances"
+	"github.com/syncfuture/mws/xmlutil"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/subchen/go-xmldom"
