@@ -20,7 +20,7 @@ type ReportListResponse struct {
 	Error            *core.ResponseError
 }
 
-func (x *ReportListResponse) GetListFinancialEventsResult() *ReportListResult {
+func (x *ReportListResponse) GetReportListResult() *ReportListResult {
 	return x.ReportListResult
 }
 func (x *ReportListResponse) GetResponseMetadata() *core.ResponseMetadata {
@@ -40,7 +40,7 @@ type ReportListByNextTokenResponse struct {
 	Error            *core.ResponseError
 }
 
-func (x *ReportListByNextTokenResponse) GetListFinancialEventsResult() *ReportListResult {
+func (x *ReportListByNextTokenResponse) GetReportListResult() *ReportListResult {
 	return x.ReportListResult
 }
 func (x *ReportListByNextTokenResponse) GetResponseMetadata() *core.ResponseMetadata {
@@ -64,7 +64,6 @@ type ReportInfo struct {
 	ReportRequestId string
 	AvailableDate   time.Time
 }
-
 type Reports struct {
 	AllOrdersReport   *AllOrdersReport
 	ReturnReport      *ReturnReport
