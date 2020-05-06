@@ -8,6 +8,7 @@ import (
 
 type IReportListResponse interface {
 	GetReportListResult() *ReportListResult
+	GetReportResult() *ReportResult
 	GetResponseMetadata() *core.ResponseMetadata
 	GetError() *core.ResponseError
 }
@@ -16,12 +17,16 @@ type IReportListResponse interface {
 
 type ReportListResponse struct {
 	ReportListResult *ReportListResult `xml:"GetReportListResult"`
+	ReportResult     *ReportResult
 	ResponseMetadata *core.ResponseMetadata
 	Error            *core.ResponseError
 }
 
 func (x *ReportListResponse) GetReportListResult() *ReportListResult {
 	return x.ReportListResult
+}
+func (x *ReportListResponse) GetReportResult() *ReportResult {
+	return x.ReportResult
 }
 func (x *ReportListResponse) GetResponseMetadata() *core.ResponseMetadata {
 	return x.ResponseMetadata
@@ -36,12 +41,16 @@ func (x *ReportListResponse) GetError() *core.ResponseError {
 
 type ReportListByNextTokenResponse struct {
 	ReportListResult *ReportListResult `xml:"GetReportListByNextTokenResult"`
+	ReportResult     *ReportResult
 	ResponseMetadata *core.ResponseMetadata
 	Error            *core.ResponseError
 }
 
 func (x *ReportListByNextTokenResponse) GetReportListResult() *ReportListResult {
 	return x.ReportListResult
+}
+func (x *ReportListByNextTokenResponse) GetReportResult() *ReportResult {
+	return x.ReportResult
 }
 func (x *ReportListByNextTokenResponse) GetResponseMetadata() *core.ResponseMetadata {
 	return x.ResponseMetadata
@@ -64,25 +73,26 @@ type ReportInfo struct {
 	ReportRequestId string
 	AvailableDate   time.Time
 }
-type Reports struct {
-	AllOrdersReport   *AllOrdersReport
-	ReturnReport      *ReturnReport
-	AllListingsReport *AllListingsReport
+
+type ReportResult struct {
+	AllOrdersReport   []*AllOrdersReport
+	ReturnReport      []*ReturnReport
+	AllListingsReport []*AllListingsReport
 }
 type AllOrdersReport struct {
-	SKU          string    `xml:"sku"`
-	OrderStatus  string    `xml:"order-status"`
-	PurchaseDate time.Time `xml:"purchase-date"`
+	SKU          string    `csv:"sku"`
+	OrderStatus  string    `csv:"order-status"`
+	PurchaseDate time.Time `csv:"purchase-date"`
 }
 type ReturnReport struct {
-	SKU                 string `xml:"sku"`
-	OrderID             string `xml:"order-id"`
-	Quantity            int32  `xml:"quantity"`
-	DetailedDisposition string `xml:"detailed-disposition"`
+	SKU                 string `csv:"sku"`
+	OrderID             string `csv:"order-id"`
+	Quantity            int32  `csv:"quantity"`
+	DetailedDisposition string `csv:"detailed-disposition"`
 }
 type AllListingsReport struct {
-	ItemName string `xml:"item-name"`
-	ASIN     string `xml:"asin1"`
+	ItemName string `csv:"item-name"`
+	ASIN     string `csv:"asin1"`
 }
 
 // #endregion

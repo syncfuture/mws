@@ -1,7 +1,11 @@
 package tests
 
 import (
+	"encoding/csv"
+	"strings"
 	"testing"
+
+	"github.com/gocarina/gocsv"
 
 	"github.com/syncfuture/mws/reports"
 
@@ -21,9 +25,21 @@ func TestGetReportList(t *testing.T) {
 
 func TestGetReport(t *testing.T) {
 	xml, err := _apiSet.Reports.GetReport(&reports.GetReportQuery{
-		ReportID: "20512864646018387",
+		ReportID: "20525527509018388",
 	})
 	assert.NoError(t, err)
 	assert.NotEmpty(t, xml)
 	t.Log(xml)
+
+	var resp []*reports.AllOrdersReport
+	reader := csv.NewReader(strings.NewReader(xml))
+	reader.Comma = '\t'
+	reader.LazyQuotes = true
+
+	err = gocsv.UnmarshalCSV(reader, &resp)
+	if err != nil {
+		t.Log(err.Error())
+	}
+
+	t.Log(resp)
 }
