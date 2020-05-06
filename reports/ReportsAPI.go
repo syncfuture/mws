@@ -3,6 +3,7 @@ package reports
 import (
 	"strconv"
 
+	"github.com/syncfuture/go/u"
 	mwsconfig "github.com/syncfuture/mws/config"
 	"github.com/syncfuture/mws/core"
 )
@@ -27,6 +28,8 @@ type GetReportListQuery struct {
 	core.QueryBase
 	MaxCount            string
 	ReportTypeListTypes []string
+	AvailableFromDate   string
+	AvailableToDate     string
 }
 
 func (x *ReportsAPI) GetReportList(query *GetReportListQuery) (r string, err error) {
@@ -34,9 +37,28 @@ func (x *ReportsAPI) GetReportList(query *GetReportListQuery) (r string, err err
 	client, err = x.NewClient("GetReportList")
 
 	client.SetParameter("MaxCount", query.MaxCount)
+	client.SetParameter("AvailableFromDate", query.AvailableFromDate)
+	client.SetParameter("AvailableToDate", query.AvailableToDate)
 	for i, v := range query.ReportTypeListTypes {
 		client.SetParameter("ReportTypeList.Type."+strconv.Itoa(i+1), v)
 	}
+
+	return client.Get()
+}
+
+type GetReportListByNextTokenQuery struct {
+	core.QueryBase
+	NextToken string
+}
+
+func (x *ReportsAPI) GetReportListByNextToken(query *GetReportListByNextTokenQuery) (r string, err error) {
+	var client *core.MWSClient
+	client, err = x.NewClient("GetReportListByNextToken")
+	if u.LogError(err) {
+		return
+	}
+
+	client.SetParameter("NextToken", query.NextToken)
 
 	return client.Get()
 }
