@@ -15,6 +15,7 @@ type IReportListResponse interface {
 }
 
 type IReportResponse interface {
+	SetReportResult(interface{})
 	GetReportResult() interface{}
 	GetError() *core.ResponseError
 }
@@ -73,6 +74,9 @@ type AllOrdersReportResponse struct {
 	Error  *core.ResponseError
 }
 
+func (x *AllOrdersReportResponse) SetReportResult(v interface{}) {
+	x.Result = v.(*AllOrderReportResult)
+}
 func (x *AllOrdersReportResponse) GetReportResult() interface{} {
 	return x.Result
 }
@@ -85,6 +89,9 @@ type ReturnReportResponse struct {
 	Error  *core.ResponseError
 }
 
+func (x *ReturnReportResponse) SetReportResult(v interface{}) {
+	x.Result = v.(*ReturnReportResult)
+}
 func (x *ReturnReportResponse) GetReportResult() interface{} {
 	return x.Result
 }
@@ -97,6 +104,9 @@ type AllListingsReportResponse struct {
 	Error  *core.ResponseError
 }
 
+func (x *AllListingsReportResponse) SetReportResult(v interface{}) {
+	x.Result = v.(*AllListingsReportResult)
+}
 func (x *AllListingsReportResponse) GetReportResult() interface{} {
 	return x.Result
 }
