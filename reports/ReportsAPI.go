@@ -26,10 +26,10 @@ func NewReportsAPI(config *mwsconfig.MWSConfig, args ...string) *ReportsAPI {
 
 type GetReportListQuery struct {
 	core.QueryBase
-	MaxCount            string
-	ReportTypeListTypes []string
-	AvailableFromDate   string
-	AvailableToDate     string
+	MaxCount          string
+	ReportTypeList    []string
+	AvailableFromDate string
+	AvailableToDate   string
 }
 
 func (x *ReportsAPI) GetReportList(query *GetReportListQuery) (r string, err error) {

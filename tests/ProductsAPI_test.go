@@ -14,4 +14,5 @@ func TestGetMatchingProduct(t *testing.T) {
 	})
 	assert.NoError(t, err)
 	assert.NotEmpty(t, xml)
+	t.Log(xml)
 }

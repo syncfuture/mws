@@ -48,6 +48,9 @@ type ReturnReportResult struct {
 type AllListingsReportResult struct {
 	Entries []*AllListingsReport
 }
+type FBAFeePreviewReportResult struct {
+	Entries []*FBAFeePreviewReport
+}
 
 type AllOrdersReport struct {
 	SKU          string    `csv:"sku"`
@@ -61,8 +64,18 @@ type ReturnReport struct {
 	DetailedDisposition string `csv:"detailed-disposition"`
 }
 type AllListingsReport struct {
+	SKU      string `csv:"sku"`
 	ItemName string `csv:"item-name"`
 	ASIN     string `csv:"asin1"`
+}
+type FBAFeePreviewReport struct {
+	SKU               string  `csv:"sku"`
+	LongestSide       float32 `csv:"longest-side"`
+	MedianSide        float32 `csv:"median-side"`
+	ShortestSide      float32 `csv:"shortest-side"`
+	DimensionUnitType int32   `csv:"unit-of-dimension"`
+	ItemPackageWeight float32 `csv:"item-package-weight"`
+	WeightUnitType    int32   `csv:"unit-of-weight"`
 }
 
 // #endregion
@@ -111,6 +124,21 @@ func (x *AllListingsReportResponse) GetReportResult() interface{} {
 	return x.Result
 }
 func (x *AllListingsReportResponse) GetError() *core.ResponseError {
+	return x.Error
+}
+
+type FBAFeePreviewReportResponse struct {
+	Result *FBAFeePreviewReportResult
+	Error  *core.ResponseError
+}
+
+func (x *FBAFeePreviewReportResponse) SetReportResult(v interface{}) {
+	x.Result = v.(*FBAFeePreviewReportResult)
+}
+func (x *FBAFeePreviewReportResponse) GetReportResult() interface{} {
+	return x.Result
+}
+func (x *FBAFeePreviewReportResponse) GetError() *core.ResponseError {
 	return x.Error
 }
 
