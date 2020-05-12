@@ -73,9 +73,9 @@ type FBAFeePreviewReport struct {
 	LongestSide       float32 `csv:"longest-side"`
 	MedianSide        float32 `csv:"median-side"`
 	ShortestSide      float32 `csv:"shortest-side"`
-	DimensionUnitType int32   `csv:"unit-of-dimension"`
+	DimensionUnitType string  `csv:"unit-of-dimension"`
 	ItemPackageWeight float32 `csv:"item-package-weight"`
-	WeightUnitType    int32   `csv:"unit-of-weight"`
+	WeightUnitType    string  `csv:"unit-of-weight"`
 }
 
 // #endregion
