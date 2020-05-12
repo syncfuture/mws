@@ -64,7 +64,7 @@ type ReturnReport struct {
 	DetailedDisposition string `csv:"detailed-disposition"`
 }
 type AllListingsReport struct {
-	SKU      string `csv:"sku"`
+	SKU      string `csv:"seller-sku"`
 	ItemName string `csv:"item-name"`
 	ASIN     string `csv:"asin1"`
 }
