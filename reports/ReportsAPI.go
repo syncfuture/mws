@@ -39,7 +39,7 @@ func (x *ReportsAPI) GetReportList(query *GetReportListQuery) (r string, err err
 	client.SetParameter("MaxCount", query.MaxCount)
 	client.SetParameter("AvailableFromDate", query.AvailableFromDate)
 	client.SetParameter("AvailableToDate", query.AvailableToDate)
-	for i, v := range query.ReportTypeListTypes {
+	for i, v := range query.ReportTypeList {
 		client.SetParameter("ReportTypeList.Type."+strconv.Itoa(i+1), v)
 	}
 
