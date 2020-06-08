@@ -1,10 +1,10 @@
 package mws
 
 import (
-	mwsconfig "github.com/syncfuture/mws/config"
 	"github.com/syncfuture/mws/finances"
 	"github.com/syncfuture/mws/orders"
 	"github.com/syncfuture/mws/products"
+	"github.com/syncfuture/mws/protoc/mwsconfig"
 	"github.com/syncfuture/mws/reports"
 )
 

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package report;
+
+option go_package = "github.com/syncfuture/mws/protoc/mwsconfig";
+
+message MWSConfig {
+    string ID               = 1;
+	string UserID           = 2;
+	string SellerID         = 3;
+	string MarketplaceID    = 4;
+	string BaseURL          = 5;
+	string SignatureVersion = 6;
+	string SignatureMethod  = 7;
+	string AuthToken        = 8;
+	string AccessKey        = 9;
+	string AccessSecret     = 10;
+}

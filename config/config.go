@@ -4,30 +4,31 @@ import (
 	"errors"
 
 	"github.com/syncfuture/go/config"
+	"github.com/syncfuture/mws/protoc/mwsconfig"
 )
 
 var ConfigNotFoundError = errors.New("Config not found")
 
-type MWSConfig struct {
-	ID               string
-	UserID           string
-	SellerID         string
-	MarketplaceID    string
-	BaseURL          string
-	SignatureVersion string
-	SignatureMethod  string
-	AuthToken        string
-	AccessKey        string
-	AccessSecret     string
-}
+// type MWSConfig struct {
+// 	ID               string
+// 	UserID           string
+// 	SellerID         string
+// 	MarketplaceID    string
+// 	BaseURL          string
+// 	SignatureVersion string
+// 	SignatureMethod  string
+// 	AuthToken        string
+// 	AccessKey        string
+// 	AccessSecret     string
+// }
 
 type IConfigGetter interface {
-	Get(userID, configID string) (*MWSConfig, error)
+	Get(userID, configID string) (*mwsconfig.MWSConfig, error)
 }
 
 type IConfigManager interface {
-	Create(config *MWSConfig) error
-	Update(config *MWSConfig) error
+	Create(config *mwsconfig.MWSConfig) error
+	Update(config *mwsconfig.MWSConfig) error
 	Delete(userid, id string) error
 }
 
@@ -41,10 +42,10 @@ type defaultConfigGetter struct {
 	ConfigProvider config.IConfigProvider
 }
 
-func (x *defaultConfigGetter) Get(userID, configID string) (r *MWSConfig, err error) {
+func (x *defaultConfigGetter) Get(userID, configID string) (r *mwsconfig.MWSConfig, err error) {
 	userJsonPath := "MWS." + userID + "." + configID
 
-	r = new(MWSConfig)
+	r = new(mwsconfig.MWSConfig)
 	r.ID = configID
 	r.UserID = userID
 	r.SellerID = x.ConfigProvider.GetString(userJsonPath + ".SellerID")

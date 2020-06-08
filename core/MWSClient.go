@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	mwsconfig "github.com/syncfuture/mws/config"
+	"github.com/syncfuture/mws/protoc/mwsconfig"
 
 	"github.com/syncfuture/go/u"
 )

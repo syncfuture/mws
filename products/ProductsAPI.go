@@ -3,8 +3,8 @@ package products
 import (
 	"strconv"
 
-	mwsconfig "github.com/syncfuture/mws/config"
 	"github.com/syncfuture/mws/core"
+	"github.com/syncfuture/mws/protoc/mwsconfig"
 )
 
 type ProductsAPI struct {
