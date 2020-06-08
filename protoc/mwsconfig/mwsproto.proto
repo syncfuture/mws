@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package report;
+package mwsconfig;
 
 option go_package = "github.com/syncfuture/mws/protoc/mwsconfig";
 

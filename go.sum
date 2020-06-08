@@ -156,6 +156,7 @@ github.com/subchen/go-xmldom v1.1.2 h1:7evI2YqfYYOnuj+PBwyaOZZYjl3iWq35P6KfBUw9j
 github.com/subchen/go-xmldom v1.1.2/go.mod h1:6Pg/HuX5/T4Jlj0IPJF1sRxKVoI/rrKP6LIMge9d5/8=
 github.com/syncfuture/go v1.1.1 h1:+bni9wo4jaxIvSM4s10zPA9ztcO6UeBKrEaDAUaPANM=
 github.com/syncfuture/go v1.1.1/go.mod h1:sFPgl3TEunxXSKL73YTEPKlubmApfmVX73IA2yy1Be4=
+github.com/syncfuture/go v1.1.9 h1:ziGGC2TfzYK/mBRExoascOlnojx9BW0iJMHXyynw8b8=
 github.com/tidwall/gjson v1.6.0 h1:9VEQWz6LLMUsUl6PueE49ir4Ka6CzLymOAZDxpFsTDc=
 github.com/tidwall/gjson v1.6.0/go.mod h1:P256ACg0Mn+j1RXIDXoss50DeIABTYK1PULOJHhxOls=
 github.com/tidwall/match v1.0.1 h1:PnKP62LPNxHKTwvHHZZzdOAOCtsJTjo6dZLCwpKm5xc=
