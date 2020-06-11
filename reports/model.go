@@ -53,9 +53,12 @@ type FBAFeePreviewReportResult struct {
 }
 
 type AllOrdersReport struct {
-	SKU          string    `csv:"sku"`
-	OrderStatus  string    `csv:"order-status"`
-	PurchaseDate time.Time `csv:"purchase-date"`
+	SKU                   string    `csv:"sku"`
+	OrderStatus           string    `csv:"order-status"`
+	ItemPrice             float32   `csv:"item-price"`
+	Quantity              int32     `csv:"quantity"`
+	ItemPromotionDiscount float32   `csv:"item-promotion-discount"`
+	PurchaseDate          time.Time `csv:"purchase-date"`
 }
 type ReturnReport struct {
 	SKU                 string `csv:"sku"`
