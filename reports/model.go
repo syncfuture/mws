@@ -39,7 +39,7 @@ type ReportInfo struct {
 
 // #region Report Model
 
-type AllOrderReportResult struct {
+type AllOrdersReportResult struct {
 	Entries []*AllOrdersReport
 }
 type ReturnReportResult struct {
@@ -86,12 +86,12 @@ type FBAFeePreviewReport struct {
 // #region Report
 
 type AllOrdersReportResponse struct {
-	Result *AllOrderReportResult
+	Result *AllOrdersReportResult
 	Error  *core.ResponseError
 }
 
 func (x *AllOrdersReportResponse) SetReportResult(v interface{}) {
-	x.Result = v.(*AllOrderReportResult)
+	x.Result = v.(*AllOrdersReportResult)
 }
 func (x *AllOrdersReportResponse) GetReportResult() interface{} {
 	return x.Result
