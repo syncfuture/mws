@@ -4,6 +4,7 @@ import (
 	"encoding/csv"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/gocarina/gocsv"
 
@@ -12,12 +13,25 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestRequestReport(t *testing.T) {
+	a, b, c := time.Now().UTC().Date()
+	date := time.Date(a, b, c, 0, 0, 0, 0, &time.Location{})
+
+	// ReportTypeList: []string{"_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_", "_GET_FBA_FULFILLMENT_CUSTOMER_RETURNS_DATA_", "_GET_MERCHANT_LISTINGS_ALL_DATA_", "_GET_FBA_ESTIMATED_FBA_FEES_TXT_DATA_"},
+	xml, err := _apiSet.Reports.RequestReport(&reports.RequestReportQuery{
+		ReportType: "_GET_FBA_FULFILLMENT_CUSTOMER_RETURNS_DATA_",
+		StartDate:  date.Add(-24 * 2 * time.Hour).Format(time.RFC3339),
+		EndDate:    date.Add(-24 * 1 * time.Hour).Format(time.RFC3339),
+	})
+	assert.NoError(t, err)
+	assert.NotEmpty(t, xml)
+	t.Log(xml)
+}
+
 func TestGetReportList(t *testing.T) {
-	xml, err := _apiSet.Reports.GetReportList(&reports.GetReportListQuery{
-		MaxCount:          "100",
-		AvailableFromDate: "2020-06-01T00:29:53+00:00",
-		ReportTypeList:    []string{"_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_"},
-		// ReportTypeList: []string{"_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_", "_GET_FBA_FULFILLMENT_CUSTOMER_RETURNS_DATA_", "_GET_MERCHANT_LISTINGS_ALL_DATA_"},
+	xml, err := _apiSet.Reports.GetReportRequestList(&reports.GetReportRequestListQuery{
+		MaxCount:        "100",
+		ReportRequestId: "281727018432",
 	})
 	assert.NoError(t, err)
 	assert.NotEmpty(t, xml)
@@ -26,7 +40,7 @@ func TestGetReportList(t *testing.T) {
 
 func TestGetReport(t *testing.T) {
 	xml, err := _apiSet.Reports.GetReport(&reports.GetReportQuery{
-		ReportID: "20987049278018414",
+		ReportID: "21346085966018432",
 	})
 	assert.NoError(t, err)
 	assert.NotEmpty(t, xml)
@@ -42,5 +56,5 @@ func TestGetReport(t *testing.T) {
 		t.Log(err.Error())
 	}
 
-	t.Log(resp)
+	t.Log(len(resp))
 }

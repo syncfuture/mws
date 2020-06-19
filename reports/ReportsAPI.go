@@ -1,8 +1,6 @@
 package reports
 
 import (
-	"strconv"
-
 	"github.com/syncfuture/go/u"
 	"github.com/syncfuture/mws/core"
 	"github.com/syncfuture/mws/protoc/mwsconfig"
@@ -24,36 +22,52 @@ func NewReportsAPI(config *mwsconfig.MWSConfig, args ...string) *ReportsAPI {
 	return r
 }
 
-type GetReportListQuery struct {
+type RequestReportQuery struct {
 	core.QueryBase
-	MaxCount          string
-	ReportTypeList    []string
-	AvailableFromDate string
-	AvailableToDate   string
+	ReportType string
+	StartDate  string
+	EndDate    string
 }
 
-func (x *ReportsAPI) GetReportList(query *GetReportListQuery) (r string, err error) {
+func (x *ReportsAPI) RequestReport(query *RequestReportQuery) (r string, err error) {
 	var client *core.MWSClient
-	client, err = x.NewClient("GetReportList")
+	client, err = x.NewClient("RequestReport")
 
-	client.SetParameter("MaxCount", query.MaxCount)
-	client.SetParameter("AvailableFromDate", query.AvailableFromDate)
-	client.SetParameter("AvailableToDate", query.AvailableToDate)
-	for i, v := range query.ReportTypeList {
-		client.SetParameter("ReportTypeList.Type."+strconv.Itoa(i+1), v)
-	}
+	client.SetParameter("ReportType", query.ReportType)
+	client.SetParameter("StartDate", query.StartDate)
+	client.SetParameter("EndDate", query.EndDate)
+	client.SetParameter("MarketplaceIdList.Id.1", client.MarketplaceID)
 
 	return client.Get()
 }
 
-type GetReportListByNextTokenQuery struct {
+type GetReportRequestListQuery struct {
+	core.QueryBase
+	MaxCount        string
+	ReportRequestId string
+}
+
+func (x *ReportsAPI) GetReportRequestList(query *GetReportRequestListQuery) (r string, err error) {
+	var client *core.MWSClient
+	client, err = x.NewClient("GetReportRequestList")
+
+	client.SetParameter("MaxCount", query.MaxCount)
+	client.SetParameter("ReportRequestIdList.Id.1", query.ReportRequestId)
+	// for i, v := range query.ReportTypeList {
+	// 	client.SetParameter("ReportRequestIdList.Type."+strconv.Itoa(i+1), v)
+	// }
+
+	return client.Get()
+}
+
+type GetReportRequestListByNextTokenQuery struct {
 	core.QueryBase
 	NextToken string
 }
 
-func (x *ReportsAPI) GetReportListByNextToken(query *GetReportListByNextTokenQuery) (r string, err error) {
+func (x *ReportsAPI) GetReportRequestListByNextToken(query *GetReportRequestListByNextTokenQuery) (r string, err error) {
 	var client *core.MWSClient
-	client, err = x.NewClient("GetReportListByNextToken")
+	client, err = x.NewClient("GetReportRequestListByNextToken")
 	if u.LogError(err) {
 		return
 	}

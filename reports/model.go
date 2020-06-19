@@ -8,8 +8,14 @@ import (
 
 // #region Interface
 
-type IReportListResponse interface {
-	GetReportListResult() *ReportListResult
+type IRequestReportResponse interface {
+	GetRequestReportResult() *RequestReportResult
+	GetResponseMetadata() *core.ResponseMetadata
+	GetError() *core.ResponseError
+}
+
+type IReportRequestListResponse interface {
+	GetReportListResult() *ReportRequestListResult
 	GetResponseMetadata() *core.ResponseMetadata
 	GetError() *core.ResponseError
 }
@@ -22,22 +28,77 @@ type IReportResponse interface {
 
 // #endregion
 
-// #region ReportList Model
+// #region RequestReport
 
-type ReportListResult struct {
-	NextToken   string
-	ReportInfos []*ReportInfo `xml:"ReportInfo"`
+type RequestReportResponse struct {
+	RequestReportResult *RequestReportResult
+	ResponseMetadata    *core.ResponseMetadata
+	Error               *core.ResponseError
 }
-type ReportInfo struct {
-	ReportType      string
-	ReportId        string
-	ReportRequestId string
-	AvailableDate   time.Time
+type RequestReportResult struct {
+	ReportRequestInfo *ReportRequestInfo
+}
+
+type ReportRequestInfo struct {
+	ReportType             string
+	ReportProcessingStatus string
+	ReportRequestId        string
+	GeneratedReportId      string
+}
+
+func (x *RequestReportResponse) GetRequestReportResult() *RequestReportResult {
+	return x.RequestReportResult
+}
+func (x *RequestReportResponse) GetResponseMetadata() *core.ResponseMetadata {
+	return x.ResponseMetadata
+}
+func (x *RequestReportResponse) GetError() *core.ResponseError {
+	return x.Error
 }
 
 // #endregion
 
-// #region Report Model
+// #region ReportRequestList
+
+type ReportRequestListResponse struct {
+	ReportRequestListResult *ReportRequestListResult `xml:"GetReportRequestListResult"`
+	ResponseMetadata        *core.ResponseMetadata
+	Error                   *core.ResponseError
+}
+type ReportRequestListResult struct {
+	NextToken          string
+	ReportRequestInfos []*ReportRequestInfo `xml:"ReportRequestInfo"`
+}
+
+func (x *ReportRequestListResponse) GetReportListResult() *ReportRequestListResult {
+	return x.ReportRequestListResult
+}
+func (x *ReportRequestListResponse) GetResponseMetadata() *core.ResponseMetadata {
+	return x.ResponseMetadata
+}
+func (x *ReportRequestListResponse) GetError() *core.ResponseError {
+	return x.Error
+}
+
+type ReportRequestListByNextTokenResponse struct {
+	ReportRequestListResult *ReportRequestListResult `xml:"GetReportRequestLisByNextTokentResult"`
+	ResponseMetadata        *core.ResponseMetadata
+	Error                   *core.ResponseError
+}
+
+func (x *ReportRequestListByNextTokenResponse) GetReportListResult() *ReportRequestListResult {
+	return x.ReportRequestListResult
+}
+func (x *ReportRequestListByNextTokenResponse) GetResponseMetadata() *core.ResponseMetadata {
+	return x.ResponseMetadata
+}
+func (x *ReportRequestListByNextTokenResponse) GetError() *core.ResponseError {
+	return x.Error
+}
+
+// #endregion
+
+// #region Report
 
 type AllOrdersReportResult struct {
 	Entries []*AllOrdersReport
@@ -83,7 +144,7 @@ type FBAFeePreviewReport struct {
 
 // #endregion
 
-// #region Report
+// #region Report Response
 
 type AllOrdersReportResponse struct {
 	Result *AllOrdersReportResult
@@ -142,42 +203,6 @@ func (x *FBAFeePreviewReportResponse) GetReportResult() interface{} {
 	return x.Result
 }
 func (x *FBAFeePreviewReportResponse) GetError() *core.ResponseError {
-	return x.Error
-}
-
-// #endregion
-
-// #region Report List
-
-type ReportListResponse struct {
-	ReportListResult *ReportListResult `xml:"GetReportListResult"`
-	ResponseMetadata *core.ResponseMetadata
-	Error            *core.ResponseError
-}
-
-func (x *ReportListResponse) GetReportListResult() *ReportListResult {
-	return x.ReportListResult
-}
-func (x *ReportListResponse) GetResponseMetadata() *core.ResponseMetadata {
-	return x.ResponseMetadata
-}
-func (x *ReportListResponse) GetError() *core.ResponseError {
-	return x.Error
-}
-
-type ReportListByNextTokenResponse struct {
-	ReportListResult *ReportListResult `xml:"GetReportListByNextTokenResult"`
-	ResponseMetadata *core.ResponseMetadata
-	Error            *core.ResponseError
-}
-
-func (x *ReportListByNextTokenResponse) GetReportListResult() *ReportListResult {
-	return x.ReportListResult
-}
-func (x *ReportListByNextTokenResponse) GetResponseMetadata() *core.ResponseMetadata {
-	return x.ResponseMetadata
-}
-func (x *ReportListByNextTokenResponse) GetError() *core.ResponseError {
 	return x.Error
 }
 
