@@ -44,6 +44,8 @@ type ReportRequestInfo struct {
 	ReportProcessingStatus string
 	ReportRequestId        string
 	GeneratedReportId      string
+	StartDate              time.Time
+	EndDate                time.Time
 }
 
 func (x *RequestReportResponse) GetRequestReportResult() *RequestReportResult {
