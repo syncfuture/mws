@@ -116,6 +116,7 @@ type FBAFeePreviewReportResult struct {
 }
 
 type AllOrdersReport struct {
+	OrderID               string    `csv:"amazon-order-id"`
 	SKU                   string    `csv:"sku"`
 	OrderStatus           string    `csv:"order-status"`
 	ItemPrice             float32   `csv:"item-price"`
