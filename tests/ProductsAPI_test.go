@@ -10,7 +10,7 @@ import (
 
 func TestGetMatchingProduct(t *testing.T) {
 	xml, err := _apiSet.Products.GetMatchingProduct(&products.GetMatchingProductQuery{
-		ASINList: []string{"B071GKH58D"},
+		ASINList: []string{"B07S58DSMH"},
 	})
 	assert.NoError(t, err)
 	assert.NotEmpty(t, xml)

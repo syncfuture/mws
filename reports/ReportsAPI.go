@@ -26,9 +26,10 @@ func NewReportsAPI(config *mwsconfig.MWSConfig, args ...string) *ReportsAPI {
 
 type RequestReportQuery struct {
 	core.QueryBase
-	ReportType string
-	StartDate  string
-	EndDate    string
+	ReportType     string
+	StartDate      string
+	EndDate        string
+	MarketplaceIDs []string
 }
 
 func (x *ReportsAPI) RequestReport(query *RequestReportQuery) (r string, err error) {
@@ -38,7 +39,15 @@ func (x *ReportsAPI) RequestReport(query *RequestReportQuery) (r string, err err
 	client.SetParameter("ReportType", query.ReportType)
 	client.SetParameter("StartDate", query.StartDate)
 	client.SetParameter("EndDate", query.EndDate)
-	client.SetParameter("MarketplaceIdList.Id.1", client.MarketplaceID)
+
+	if len(query.MarketplaceIDs) > 0 {
+		for i, v := range query.MarketplaceIDs {
+			client.SetParameter("MarketplaceIdList.Id."+strconv.Itoa(i+1), v)
+		}
+	} else {
+		// default
+		client.SetParameter("MarketplaceIdList.Id.1", client.MarketplaceID)
+	}
 
 	return client.Get()
 }

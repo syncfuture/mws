@@ -119,6 +119,7 @@ type AllOrdersReport struct {
 	OrderID               string    `csv:"amazon-order-id"`
 	SKU                   string    `csv:"sku"`
 	OrderStatus           string    `csv:"order-status"`
+	Currency              string    `csv:"currency"`
 	ItemPrice             float32   `csv:"item-price"`
 	Quantity              int32     `csv:"quantity"`
 	ItemPromotionDiscount float32   `csv:"item-promotion-discount"`
