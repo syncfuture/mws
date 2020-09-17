@@ -126,10 +126,11 @@ type AllOrdersReport struct {
 	PurchaseDate          time.Time `csv:"purchase-date"`
 }
 type ReturnReport struct {
-	SKU                 string `csv:"sku"`
-	OrderID             string `csv:"order-id"`
-	Quantity            int32  `csv:"quantity"`
-	DetailedDisposition string `csv:"detailed-disposition"`
+	SKU                 string    `csv:"sku"`
+	OrderID             string    `csv:"order-id"`
+	Quantity            int32     `csv:"quantity"`
+	DetailedDisposition string    `csv:"detailed-disposition"`
+	ReturnDate          time.Time `csv:"return-date"`
 }
 type AllListingsReport struct {
 	SKU      string `csv:"seller-sku"`

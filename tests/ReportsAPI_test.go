@@ -19,7 +19,7 @@ func TestRequestReport(t *testing.T) {
 
 	// ReportTypeList: []string{"_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_", "_GET_FBA_FULFILLMENT_CUSTOMER_RETURNS_DATA_", "_GET_MERCHANT_LISTINGS_ALL_DATA_", "_GET_FBA_ESTIMATED_FBA_FEES_TXT_DATA_"},
 	xml, err := _apiSet.Reports.RequestReport(&reports.RequestReportQuery{
-		ReportType: "_GET_MERCHANT_LISTINGS_ALL_DATA_",
+		ReportType: "_GET_FBA_FULFILLMENT_CUSTOMER_RETURNS_DATA_",
 		StartDate:  date.Add(-24 * 2 * time.Hour).Format(time.RFC3339),
 		EndDate:    date.Add(-24 * 1 * time.Hour).Format(time.RFC3339),
 	})
@@ -31,7 +31,7 @@ func TestRequestReport(t *testing.T) {
 func TestGetReportList(t *testing.T) {
 	xml, err := _apiSet.Reports.GetReportRequestList(&reports.GetReportRequestListQuery{
 		MaxCount:        "100",
-		ReportRequestId: "289583018479",
+		ReportRequestId: "301560018522",
 	})
 	assert.NoError(t, err)
 	assert.NotEmpty(t, xml)
@@ -40,7 +40,7 @@ func TestGetReportList(t *testing.T) {
 
 func TestGetReport(t *testing.T) {
 	xml, err := _apiSet.Reports.GetReport(&reports.GetReportQuery{
-		ReportID: "22267928506018479",
+		ReportID: "23226193592018522",
 	})
 	assert.NoError(t, err)
 	assert.NotEmpty(t, xml)
