@@ -35,3 +35,18 @@ func (x *OrdersAPI) ListOrders(query *ListOrdersQuery) (r string, err error) {
 
 	return client.Get()
 }
+
+type GetOrderQuery struct {
+	core.QueryBase
+	AmazonOrderId string
+}
+
+func (x *OrdersAPI) GetOrder(query *GetOrderQuery) (r string, err error) {
+	var client *core.MWSClient
+	client, err = x.NewClient("GetOrder")
+
+	client.SetParameter("AmazonOrderId.Id.1", query.AmazonOrderId)
+	client.SetParameter("MarketplaceId.Id.1", client.MarketplaceID)
+
+	return client.Get()
+}
