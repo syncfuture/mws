@@ -1,6 +1,8 @@
 package orders
 
 import (
+	"strconv"
+
 	"github.com/syncfuture/mws/core"
 	"github.com/syncfuture/mws/protoc/mwsconfig"
 )
@@ -38,15 +40,16 @@ func (x *OrdersAPI) ListOrders(query *ListOrdersQuery) (r string, err error) {
 
 type GetOrderQuery struct {
 	core.QueryBase
-	AmazonOrderId string
+	AmazonOrderIDList []string
 }
 
 func (x *OrdersAPI) GetOrder(query *GetOrderQuery) (r string, err error) {
 	var client *core.MWSClient
 	client, err = x.NewClient("GetOrder")
 
-	client.SetParameter("AmazonOrderId.Id.1", query.AmazonOrderId)
-	client.SetParameter("MarketplaceId.Id.1", client.MarketplaceID)
+	for i, v := range query.AmazonOrderIDList {
+		client.SetParameter("AmazonOrderId.Id."+strconv.Itoa(i+1), v)
+	}
 
 	return client.Get()
 }
