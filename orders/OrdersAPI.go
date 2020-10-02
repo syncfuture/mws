@@ -51,5 +51,5 @@ func (x *OrdersAPI) GetOrder(query *GetOrderQuery) (r string, err error) {
 		client.SetParameter("AmazonOrderId.Id."+strconv.Itoa(i+1), v)
 	}
 
-	return client.Get()
+	return client.Post()
 }
