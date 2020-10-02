@@ -22,7 +22,7 @@ func TestListOrders(t *testing.T) {
 func TestGetOrder(t *testing.T) {
 	xml, err := _apiSet.Orders.GetOrder(&orders.GetOrderQuery{
 		AmazonOrderIDList: []string{
-			"114-4159787-5585006",
+			// "114-4159787-5585006",
 			"114-4129208-8882629",
 			"114-4120921-6108219",
 			"114-4111432-0434665",
