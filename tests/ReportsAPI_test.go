@@ -2,12 +2,13 @@ package tests
 
 import (
 	"encoding/csv"
+	"fmt"
 	"strings"
 	"testing"
 	"time"
+	"unicode/utf8"
 
 	"github.com/gocarina/gocsv"
-
 	"github.com/syncfuture/mws/reports"
 
 	"github.com/stretchr/testify/assert"
@@ -19,7 +20,7 @@ func TestRequestReport(t *testing.T) {
 
 	// ReportTypeList: []string{"_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_", "_GET_FBA_FULFILLMENT_CUSTOMER_RETURNS_DATA_", "_GET_MERCHANT_LISTINGS_ALL_DATA_", "_GET_FBA_ESTIMATED_FBA_FEES_TXT_DATA_"},
 	xml, err := _apiSet.Reports.RequestReport(&reports.RequestReportQuery{
-		ReportType: "_GET_FBA_FULFILLMENT_CUSTOMER_RETURNS_DATA_",
+		ReportType: "_GET_MERCHANT_LISTINGS_ALL_DATA_",
 		StartDate:  date.Add(-24 * 2 * time.Hour).Format(time.RFC3339),
 		EndDate:    date.Add(-24 * 1 * time.Hour).Format(time.RFC3339),
 	})
@@ -31,7 +32,7 @@ func TestRequestReport(t *testing.T) {
 func TestGetReportList(t *testing.T) {
 	xml, err := _apiSet.Reports.GetReportRequestList(&reports.GetReportRequestListQuery{
 		MaxCount:        "100",
-		ReportRequestId: "301560018522",
+		ReportRequestId: "308356018548",
 	})
 	assert.NoError(t, err)
 	assert.NotEmpty(t, xml)
@@ -40,13 +41,13 @@ func TestGetReportList(t *testing.T) {
 
 func TestGetReport(t *testing.T) {
 	xml, err := _apiSet.Reports.GetReport(&reports.GetReportQuery{
-		ReportID: "23226193592018522",
+		ReportID: "23825377863018548",
 	})
 	assert.NoError(t, err)
 	assert.NotEmpty(t, xml)
-	t.Log(xml)
+	// t.Log(xml)
 
-	var resp []*reports.AllOrdersReport
+	var resp []*reports.AllListingsReport
 	reader := csv.NewReader(strings.NewReader(xml))
 	reader.Comma = '\t'
 	reader.LazyQuotes = true
@@ -56,5 +57,20 @@ func TestGetReport(t *testing.T) {
 		t.Log(err.Error())
 	}
 
-	t.Log(len(resp))
+	name := resp[0].ItemName
+	for i, w := 0, 0; i < len(name); i += w {
+		r, width := utf8.DecodeRuneInString(name[i:])
+		// fmt.Printf("%#x starts at byte position %d\n", r, i)
+		if i == 53 {
+			// rune(65533)
+			if r == '\ufffd' {
+				out := []rune(name)
+				out[i] = '-'
+				fmt.Println(string(out))
+			}
+		}
+		w = width
+	}
+
+	// t.Log(resp[0].ItemName)
 }

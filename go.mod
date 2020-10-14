@@ -9,4 +9,5 @@ require (
 	github.com/stretchr/testify v1.6.1
 	github.com/subchen/go-xmldom v1.1.2
 	github.com/syncfuture/go v1.1.12
+	golang.org/x/text v0.3.2
 )
