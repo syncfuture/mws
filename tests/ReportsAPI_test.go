@@ -57,19 +57,24 @@ func TestGetReport(t *testing.T) {
 		t.Log(err.Error())
 	}
 
-	name := resp[0].ItemName
-	for i, w := 0, 0; i < len(name); i += w {
-		r, width := utf8.DecodeRuneInString(name[i:])
-		// fmt.Printf("%#x starts at byte position %d\n", r, i)
-		if i == 53 {
-			// rune(65533)
+	for _, entry := range resp {
+		// if entry.ASIN == "B089JLPDYC" {
+		name := entry.ItemName
+		for i, w := 0, 0; i < len(name); i += w {
+			r, width := utf8.DecodeRuneInString(name[i:])
+			// fmt.Printf("%#x starts at byte position %d\n", r, i)
+			// '\ufffd'
 			if r == '\ufffd' {
 				out := []rune(name)
 				out[i] = '-'
-				fmt.Println(string(out))
+				name = string(out)
+				fmt.Println(name)
 			}
+			w = width
 		}
-		w = width
+
+		fmt.Println(name)
+		// }
 	}
 
 	// t.Log(resp[0].ItemName)
