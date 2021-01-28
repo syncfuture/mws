@@ -3,7 +3,7 @@ package config
 import (
 	"errors"
 
-	"github.com/syncfuture/go/config"
+	config "github.com/syncfuture/go/sconfig"
 	"github.com/syncfuture/mws/protoc/mwsconfig"
 )
 

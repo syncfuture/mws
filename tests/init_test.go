@@ -8,7 +8,7 @@ import (
 	"github.com/syncfuture/mws"
 
 	log "github.com/kataras/golog"
-	"github.com/syncfuture/go/config"
+	config "github.com/syncfuture/go/sconfig"
 	"github.com/syncfuture/go/u"
 	mwsconfig "github.com/syncfuture/mws/config"
 )
