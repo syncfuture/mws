@@ -114,6 +114,12 @@ type AllListingsReportResult struct {
 type FBAFeePreviewReportResult struct {
 	Entries []*FBAFeePreviewReport
 }
+type InventoryHistoryReportResult struct {
+	Entries []*InventoryHistoryReport
+}
+type ManageInventoryReportResult struct {
+	Entries []*ManageInventoryReport
+}
 
 type AllOrdersReport struct {
 	OrderID               string    `csv:"amazon-order-id"`
@@ -145,6 +151,17 @@ type FBAFeePreviewReport struct {
 	DimensionUnitType string  `csv:"unit-of-dimension"`
 	ItemPackageWeight float32 `csv:"item-package-weight"`
 	WeightUnitType    string  `csv:"unit-of-weight"`
+	ProductSizeTier   string  `csv:"product-size-tier"`
+	FulfillmentFee    float32 `csv:"expected-fulfillment-fee-per-unit"`
+}
+type InventoryHistoryReport struct {
+	Month  string `csv:"month"`
+	SKU    string `csv:"sku"`
+	AvgQty string `csv:"average-quantity"`
+}
+type ManageInventoryReport struct {
+	SKU               string `csv:"sku"`
+	AfnFulfillableQty string `csv:"afn-fulfillable-quantity"`
 }
 
 // #endregion

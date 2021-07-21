@@ -18,10 +18,13 @@ func TestRequestReport(t *testing.T) {
 	a, b, c := time.Now().UTC().Date()
 	date := time.Date(a, b, c, 0, 0, 0, 0, &time.Location{})
 
-	// ReportTypeList: []string{"_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_", "_GET_FBA_FULFILLMENT_CUSTOMER_RETURNS_DATA_", "_GET_MERCHANT_LISTINGS_ALL_DATA_", "_GET_FBA_ESTIMATED_FBA_FEES_TXT_DATA_"},
+	//ReportTypeList: []string{"_GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_",
+	//"_GET_FBA_FULFILLMENT_CUSTOMER_RETURNS_DATA_", "_GET_MERCHANT_LISTINGS_ALL_DATA_", "_GET_FBA_ESTIMATED_FBA_FEES_TXT_DATA_",
+	//"_GET_FBA_FULFILLMENT_MONTHLY_INVENTORY_DATA_","_GET_FBA_MYI_UNSUPPRESSED_INVENTORY_DATA_"
+	//},
 	xml, err := _apiSet.Reports.RequestReport(&reports.RequestReportQuery{
-		ReportType: "_GET_MERCHANT_LISTINGS_ALL_DATA_",
-		StartDate:  date.Add(-24 * 2 * time.Hour).Format(time.RFC3339),
+		ReportType: "_GET_FBA_MYI_UNSUPPRESSED_INVENTORY_DATA_",
+		StartDate:  date.Add(-24 * 90 * time.Hour).Format(time.RFC3339),
 		EndDate:    date.Add(-24 * 1 * time.Hour).Format(time.RFC3339),
 	})
 	assert.NoError(t, err)
@@ -32,7 +35,7 @@ func TestRequestReport(t *testing.T) {
 func TestGetReportList(t *testing.T) {
 	xml, err := _apiSet.Reports.GetReportRequestList(&reports.GetReportRequestListQuery{
 		MaxCount:        "100",
-		ReportRequestId: "308356018548",
+		ReportRequestId: "400631018824",
 	})
 	assert.NoError(t, err)
 	assert.NotEmpty(t, xml)
@@ -41,11 +44,11 @@ func TestGetReportList(t *testing.T) {
 
 func TestGetReport(t *testing.T) {
 	xml, err := _apiSet.Reports.GetReport(&reports.GetReportQuery{
-		ReportID: "23825377863018548",
+		ReportID: "32124952315018824",
 	})
 	assert.NoError(t, err)
 	assert.NotEmpty(t, xml)
-	// t.Log(xml)
+	t.Log(xml)
 
 	var resp []*reports.AllListingsReport
 	reader := csv.NewReader(strings.NewReader(xml))

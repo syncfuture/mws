@@ -24,6 +24,8 @@ func NewReportsAPI(config *mwsconfig.MWSConfig, args ...string) *ReportsAPI {
 	return r
 }
 
+// #region RequestReport
+
 type RequestReportQuery struct {
 	core.QueryBase
 	ReportType    string
@@ -49,6 +51,10 @@ func (x *ReportsAPI) RequestReport(query *RequestReportQuery) (r string, err err
 
 	return client.Get()
 }
+
+// #endregion
+
+// #region RequestReportList
 
 type GetReportRequestListQuery struct {
 	core.QueryBase
@@ -86,6 +92,10 @@ func (x *ReportsAPI) GetReportRequestListByNextToken(query *GetReportRequestList
 	return client.Get()
 }
 
+// #endregion
+
+// #region GetReport
+
 type GetReportQuery struct {
 	core.QueryBase
 	ReportID string
@@ -99,6 +109,8 @@ func (x *ReportsAPI) GetReport(query *GetReportQuery) (r string, err error) {
 
 	return client.Get()
 }
+
+// #endregion
 
 // #region GetReportList
 
