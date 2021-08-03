@@ -176,7 +176,7 @@ type AllOrdersReportResponse struct {
 func (x *AllOrdersReportResponse) SetReportResult(v interface{}) {
 	x.Result = v.(*AllOrdersReportResult)
 }
-func (x *AllOrdersReportResponse) GetReportResult() *AllOrdersReportResult {
+func (x *AllOrdersReportResponse) GetReportResult() interface{} {
 	return x.Result
 }
 func (x *AllOrdersReportResponse) GetError() *core.ResponseError {
@@ -191,7 +191,7 @@ type ReturnReportResponse struct {
 func (x *ReturnReportResponse) SetReportResult(v interface{}) {
 	x.Result = v.(*ReturnReportResult)
 }
-func (x *ReturnReportResponse) GetReportResult() *ReturnReportResult {
+func (x *ReturnReportResponse) GetReportResult() interface{} {
 	return x.Result
 }
 func (x *ReturnReportResponse) GetError() *core.ResponseError {
@@ -206,7 +206,7 @@ type AllListingsReportResponse struct {
 func (x *AllListingsReportResponse) SetReportResult(v interface{}) {
 	x.Result = v.(*AllListingsReportResult)
 }
-func (x *AllListingsReportResponse) GetReportResult() *AllListingsReportResult {
+func (x *AllListingsReportResponse) GetReportResult() interface{} {
 	return x.Result
 }
 func (x *AllListingsReportResponse) GetError() *core.ResponseError {
@@ -221,7 +221,7 @@ type FBAFeePreviewReportResponse struct {
 func (x *FBAFeePreviewReportResponse) SetReportResult(v interface{}) {
 	x.Result = v.(*FBAFeePreviewReportResult)
 }
-func (x *FBAFeePreviewReportResponse) GetReportResult() *FBAFeePreviewReportResult {
+func (x *FBAFeePreviewReportResponse) GetReportResult() interface{} {
 	return x.Result
 }
 func (x *FBAFeePreviewReportResponse) GetError() *core.ResponseError {
@@ -236,7 +236,7 @@ type InventoryHistoryReportResponse struct {
 func (x *InventoryHistoryReportResponse) SetReportResult(v interface{}) {
 	x.Result = v.(*InventoryHistoryReportResult)
 }
-func (x *InventoryHistoryReportResponse) GetReportResult() *InventoryHistoryReportResult {
+func (x *InventoryHistoryReportResponse) GetReportResult() interface{} {
 	return x.Result
 }
 func (x *InventoryHistoryReportResponse) GetError() *core.ResponseError {
@@ -251,7 +251,7 @@ type ManageInventoryReportResponse struct {
 func (x *ManageInventoryReportResponse) SetReportResult(v interface{}) {
 	x.Result = v.(*ManageInventoryReportResult)
 }
-func (x *ManageInventoryReportResponse) GetReportResult() *ManageInventoryReportResult {
+func (x *ManageInventoryReportResponse) GetReportResult() interface{} {
 	return x.Result
 }
 func (x *ManageInventoryReportResponse) GetError() *core.ResponseError {
