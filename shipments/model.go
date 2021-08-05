@@ -37,7 +37,7 @@ type InboundShipmentsResult struct {
 	ShipmentData *ShipmentData `xml:"ShipmentData"`
 }
 type ShipmentData struct {
-	Member []*ShipmentMember `xml:"member"`
+	Members []*ShipmentMember `xml:"member"`
 }
 type ShipmentMember struct {
 	ShipmentId                     string   `xml:"ShipmentId"`
@@ -98,7 +98,7 @@ type InboundShipmentItemsResult struct {
 	ItemData  *ItemData `xml:"ItemData"`
 }
 type ItemData struct {
-	Member []*ItemMember `xml:"member"`
+	Members []*ItemMember `xml:"member"`
 }
 type ItemMember struct {
 	ShipmentId            string   `xml:"ShipmentId"`

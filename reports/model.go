@@ -155,9 +155,9 @@ type FBAFeePreviewReport struct {
 	FulfillmentFee    float32 `csv:"expected-fulfillment-fee-per-unit"`
 }
 type InventoryHistoryReport struct {
-	Month  string `csv:"month"`
-	SKU    string `csv:"sku"`
-	AvgQty string `csv:"average-quantity"`
+	Month  string  `csv:"month"`
+	SKU    string  `csv:"sku"`
+	AvgQty float32 `csv:"average-quantity"`
 }
 type ManageInventoryReport struct {
 	SKU               string `csv:"sku"`
